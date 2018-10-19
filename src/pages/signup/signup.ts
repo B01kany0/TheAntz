@@ -23,30 +23,67 @@ export class SignupPage {
 
   @ViewChild('input') myInput: ElementRef
 
-  obj = {} as obj;
+  name: string;
+  email: string;
+  password: string;
   constructor(public viewCtrl: ViewController, public navCtrl: NavController, public navParams: NavParams, public art: StreetartzProvider, public toastCtrl: ToastController, public alertCtrl: AlertController, public modalCtrl: ModalController, public loadingCtrl: LoadingController) {
-    
+
   }
   ionViewDidLoad() {
     console.log('ionViewDidLoad SignupPage');
   }
   signUp() {
-    if(this.obj.email ==null || this.obj.email == undefined){
+    if (this.name == undefined || this.name == null &&
+      this.email == undefined || this.email == null,
+      this.password == undefined || this.password == null) {
       const alert = this.alertCtrl.create({
-        subTitle: 'Please enter your details',
+        title: "Oops! ",
+        subTitle: "Please enter your name,email and password to login.",
         buttons: ['OK']
       });
       alert.present();
-  }
-  else{
-    this.art.register(this.obj).then(() => {
-      this.presentLoading();
-      this.navCtrl.setRoot(CategoryPage);
-      this.presentLoading1();
-    }, (error) => {
-      console.log(error.message);
-    })
-  }
+    }
+    else if (this.name == undefined || this.name == null) {
+      const alert = this.alertCtrl.create({
+        title: "No Name",
+        subTitle: "It looks like you didn't enter your Name.",
+        buttons: ['OK']
+      });
+      alert.present();
+    }
+    else if (this.email == undefined || this.email == null) {
+      const alert = this.alertCtrl.create({
+        title: "No Email",
+        subTitle: "It looks like you didn't enter your email address.",
+        buttons: ['OK']
+      });
+      alert.present();
+    }
+    else if (this.password == undefined || this.password == null) {
+      const alert = this.alertCtrl.create({
+        title: "No Password",
+        subTitle: "You have not entered your password. Please enter your password",
+        buttons: ['OK']
+      });
+      alert.present();
+    }
+    //if (this.password.length < 6 ) {
+    //  const alert = this.alertCtrl.create({
+    //    title: "Lacking Password",
+    //    subTitle: "Your password should atleat contain a minimum of 6 characters",
+    //    buttons: ['OK']
+    //  });
+    //  alert.present();
+    //}
+    else {
+      this.art.register(this.email, this.password, this.name).then(() => {
+        this.presentLoading();
+        this.navCtrl.setRoot(CategoryPage);
+        this.presentLoading1();
+      }, (error) => {
+        console.log(error.message);
+      })
+    }
   }
   dismiss() {
     this.navCtrl.setRoot(LoginPage);
@@ -68,14 +105,14 @@ export class SignupPage {
   onKeyPress(event) {
     if ((event.keyCode >= 65 && event.keyCode <= 90) || (event.keyCode >= 97 && event.keyCode <= 122) || event.keyCode == 32 || event.keyCode == 46) {
       return true
-  }
-  else {
-          const toast = this.toastCtrl.create({
+    }
+    else {
+      const toast = this.toastCtrl.create({
         message: event.keyCode - 48 + ' is not allowed as a name',
         duration: 2000
       });
       toast.present();
-       return false;
-  }  
-}
+      return false;
+    }
+  }
 }

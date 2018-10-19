@@ -3,7 +3,6 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { obj } from '../../app/class';
 import { StreetartzProvider } from '../../providers/streetart-database/streetart-database';
 import { EmailComposer } from '@ionic-native/email-composer';
-import firebase from 'firebase';
 import { CategoryPage } from '../category/category';
 
 
@@ -36,13 +35,13 @@ export class ViewPage {
   uid: any
   PicUrl: any;
   url;
+  num;
   numComments;
   Comments = [];
   email;
   comments;
+  likes;
   like;
-  numlikes;
-  removelike;
   username;
   commentsLeng;
   LikesLeng;
@@ -59,11 +58,10 @@ export class ViewPage {
     console.log("this is my index");
     console.log(this.email);
 
-    this.name = this.obj.name;
+    this.username = this.obj.username;
     this.downloadurl = this.obj.pic;
     this.keys2 = this.obj.key;
     this.downloadurl1 = this.obj.url
-
     this.numComments = this.obj.comments;
     this.email = this.obj.email;
     this.name = this.obj.name;
@@ -74,7 +72,6 @@ export class ViewPage {
 
 
 
-
     this.emailComposer.isAvailable().then((available: boolean) => {
       if (available) {
         console.log(available);
@@ -82,49 +79,32 @@ export class ViewPage {
     });
 
   }
-
   ionViewDidLoad() {
     console.log('ionViewDidLoad ViewPage');
     console.log(this.obj);
-
+    this.viewcomments();
+    this.currentUserId = this.art.returnUID();
+    console.log(this.currentUserId);
   }
-
   BuyArt() {
     let email = {
       to: this.obj.email,
       cc: 'theantz39@gmail.com',
-      bcc: ['john@doe.com', 'jane@doe.com'],
       attachments: [
-        'file://img/logo.png',
-        'res://icon.png',
-        'base64:icon.png//iVBORw0KGgoAAAANSUhEUg...',
-        'file://README.pdf'
+        this.downloadurl
       ],
-      subject: 'Cordova Icons',
-      body: 'How are you? Nice greetings from Leipzig',
+      subject: this.obj.username,
+      body: this.obj.pic,
       isHtml: true
     };
-
     this.emailComposer.open(email);
-    // this.art.sendEmail(email);
-    // Send a text message using default options
-
   }
 
   GoBackToCategory() {
-    this.navCtrl.pop();
-  }
-  sendComment(comment) {
-    this.art.comments(this.obj.key, this.comment).then((data) => {
-      this.art.addNumComments(this.obj.key, this.comments);
-      console.log(data);
-      // this.Comments.length =0;
-      this.arr2.length = 0;
-      this.view();
-    })
+    this.navCtrl.setRoot(CategoryPage);
   }
 
-  view() {
+  viewcomments() {
     this.art.viewComments(this.obj.key, this.comment).then((data) => {
       console.log(data)
       var keys1: any = Object.keys(data);
@@ -138,9 +118,8 @@ export class ViewPage {
           date: data[key].date
         }
         this.arr2.push(obj);
-        console.log(data);
+        console.log(this.arr2);
       }
-
       console.log("janet");
       this.commentsLeng = this.arr2.length;
       console.log(this.commentsLeng);
@@ -157,7 +136,6 @@ export class ViewPage {
       this.art.addNumOfLikes(this.obj.key, this.numlikes);
       this.numlikes ++;
        }
-
      
      else {
       this.art.removeLike(this.obj.key, this.numlikes,data);
@@ -167,30 +145,6 @@ export class ViewPage {
    
  
   }
-
-  
-}
-
-
-
-
-
-
-
-//   else if  (this.PicUrl[key]){
-//     let user = firebase.auth().currentUser;
-//     this.art.removeLike(this.PicUrl[key].name, this.PicUrl[key].key, this.PicUrl[key].likes).then (data =>{
-//      this.ionViewDidLoad();
-//      console.log(key)
-//     })
-//  }
-// else{
-//   let user = firebase.auth().currentUser;
-// this.art.addNumOfLikes(this.key.name, this.key.key, this.PicUrl.key.likes).then (data =>{
-// this.ionViewDidLoad();
-// console.log(key)
-// })
-
 
   CommentPic(key) {
     this.art.comments(this.obj.key, this.comment).then((data: any) => {
@@ -207,4 +161,3 @@ export class ViewPage {
   }
 
 }
-

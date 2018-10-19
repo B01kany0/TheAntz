@@ -7,6 +7,8 @@ import { LoadingController } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
 import firebase from 'firebase';
 import moment from 'moment';
+import emailExistence from 'email-existence';
+
 /*
   Generated class for the StreetartzProvider provider.
   See https://angular.io/guide/dependency-injection for more info on providers
@@ -33,6 +35,7 @@ export class StreetartzProvider {
   condition;
   likeArr = [];
   results;
+  response;
   constructor(public toastCtrl: ToastController, public alertCtrl: AlertController, public loadingCtrl: LoadingController) {
     console.log('Hello StreetartzProvider Provider');
 
@@ -67,33 +70,36 @@ export class StreetartzProvider {
     });
 
   }
-  register(obj: obj) {
-    return firebase.auth().createUserWithEmailAndPassword(obj.email, obj.password).then((newUser) => {
-      var user = firebase.auth().currentUser
-      firebase.database().ref("profiles/" + user.uid).set({
-        name: obj.name,
-        email: obj.email,
-        password: obj.password,
-        contact: "",
-        downloadurl: '../../assets/download.png',
-        bio: "You have not yet inserted a description about your skills and abilities, update profile to get started.",
-      })
-    }).catch((error) => {
-      const alert = this.alertCtrl.create({
-        subTitle: error.message,
-        buttons: [
-          {
-            text: 'ok',
-            handler: data => {
-              console.log('Cancel clicked');
+  register(email, password, name) {
+    return new Promise((resolve , reject)=>{
+      return firebase.auth().createUserWithEmailAndPassword(email, password).then((newUser) => {
+        var user = firebase.auth().currentUser
+        firebase.database().ref("profiles/" + user.uid).set({
+          name: name,
+          email: email,
+          contact: "",
+          downloadurl: '../../assets/download.png',
+          bio: "You have not yet inserted a description about your skills and abilities, update profile to get started.",
+        })
+        resolve() ;
+      }).catch((error) => {
+        const alert = this.alertCtrl.create({
+          subTitle: error.message,
+          buttons: [
+            {
+              text: 'ok',
+              handler: data => {
+                console.log('Cancel clicked');
+              }
             }
-          }
-        ]
-      });
-      alert.present();
-      console.log(error);
+          ]
+        });
+        alert.present();
+        console.log(error);
+      })
     })
-
+   
+ 
   }
 
   login(email, password) {
@@ -146,22 +152,32 @@ export class StreetartzProvider {
   }
   forgotpassword(email) {
     return new Promise((resolve, reject) => {
-      if (email != null || email != undefined) {
-        firebase.auth().sendPasswordResetEmail(email);
-        const alert = this.alertCtrl.create({
-          title: 'Password request Sent',
-          subTitle: "We've sent you and email with a reset link, go to your email to recover your account.",
-          buttons: ['OK']
-        });
-        alert.present();
-        resolve()
-      }
-      else if (email == null || email == undefined) {
+      if (email == null || email == undefined  ) {
         const alert = this.alertCtrl.create({
           subTitle: 'Please enter your Email.',
           buttons: ['OK']
         });
         alert.present();
+      }
+    
+      else   if (email != null || email != undefined) {
+        firebase.auth().sendPasswordResetEmail(email).then(() =>{
+          const alert = this.alertCtrl.create({
+            title: 'Password request Sent',
+            subTitle: "We've sent you and email with a reset link, go to your email to recover your account.",
+            buttons: ['OK']
+          });
+          alert.present();
+          resolve()
+        }, Error =>{
+          const alert = this.alertCtrl.create({
+            subTitle: Error.message,
+            buttons: ['OK']
+          });
+          alert.present();
+          resolve()
+        });
+       
       }
     }).catch((error) => {
       const alert = this.alertCtrl.create({
@@ -206,6 +222,7 @@ export class StreetartzProvider {
   storeToDB(name, category, picName, description, location, price) {
     return new Promise((accpt, rejc) => {
       var storageRef = firebase.storage().ref(name);
+      console.log(name)
       storageRef.getDownloadURL().then(url => {
         console.log(url)
         var user = firebase.auth().currentUser;

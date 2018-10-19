@@ -66,6 +66,14 @@ export class ProfilePage implements OnInit {
   }
 
   upload() {
+    
+    var loader = this.loadingCtrl.create({
+      content: "please wait...",
+      duration: 1000
+
+    });
+
+    loader.present();
     this.navCtrl.push(UploadImagePage);
   }
   presentPopover() {

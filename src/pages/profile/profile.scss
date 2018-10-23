@@ -1,4 +1,25 @@
 page-profile {
+    .empty1{
+        height: 150px;
+    }
+    .no-data{
+        // padding-top: 50%;
+        // transform: translateY(-5%);
+        text-align: center;
+        font-weight: bold;
+    }
+    .emptycontent{
+        text-align: center;
+        // position: absolute;
+    }
+    .emoji{
+        // transform: rotate(90deg
+        font-size: 25px;
+        position: absolute;
+        text-align: center;
+        left: 50%;
+        transform: translateX(-50%);
+    }
     .threeDots{
         font-size: 20px;
     }

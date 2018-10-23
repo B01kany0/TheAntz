@@ -1,0 +1,2435 @@
+webpackJsonp([12],{
+
+/***/ 138:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UploadImagePage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_streetart_database_streetart_database__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__profile_profile__ = __webpack_require__(57);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+/**
+ * Generated class for the UploadImagePage page.
+ *
+ * See https://ionicframework.com/docs/components/#navigation for more info on
+ * Ionic pages and navigation.
+ */
+var UploadImagePage = /** @class */ (function () {
+    function UploadImagePage(navCtrl, navParams, art, view, alertCtrl) {
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+        this.art = art;
+        this.view = view;
+        this.alertCtrl = alertCtrl;
+        this.url = '../../assets/default.jpg';
+        this.arr = [];
+    }
+    UploadImagePage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad UploadModalPage');
+    };
+    UploadImagePage.prototype.insertvid = function (event) {
+        var _this = this;
+        if (event.target.files && event.target.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (event) {
+                _this.url = event.target.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+            console.log(reader.onload);
+        }
+    };
+    UploadImagePage.prototype.uploadPicture = function () {
+        var _this = this;
+        if (this.category != null || this.description != null || this.name != null || this.location != null || this.price != null) {
+            this.art.uploadPic(this.url, this.name).then(function (data) {
+                _this.art.storeToDB(data, _this.category, _this.name, _this.description, _this.location, _this.price).then(function () {
+                    _this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_3__profile_profile__["a" /* ProfilePage */]);
+                }, function (Error) {
+                    console.log(Error);
+                });
+            }, function (Error) {
+                console.log(Error);
+            });
+        }
+        else {
+            var confirm_1 = this.alertCtrl.create({
+                message: 'Please enter all details to upload your image',
+                buttons: [
+                    {
+                        text: 'Ok',
+                        handler: function () {
+                        }
+                    },
+                ]
+            });
+            confirm_1.present();
+        }
+    };
+    UploadImagePage.prototype.dismiss = function () {
+        this.view.dismiss();
+    };
+    UploadImagePage = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'page-upload-image',template:/*ion-inline-start:"C:\Users\Janet Zango\groupApp\TheAntz\src\pages\upload-image\upload-image.html"*/'<ion-header>\n\n  <ion-toolbar color="secondary">\n\n    <ion-title id="tit" align="center">Upload Artwork</ion-title>\n\n    <ion-buttons left>\n\n      <button ion-button color="light" class="closeBtn" clear icon-only large (click)="dismiss()">\n\n        <ion-icon name="close"></ion-icon>\n\n      </button>\n\n    </ion-buttons>\n\n\n\n  </ion-toolbar>\n\n\n\n</ion-header>\n\n<ion-content>\n\n\n\n  <div class="container">\n\n\n\n  </div>\n\n  <div class="body" padding>\n\n\n\n\n\n    <div class="image">\n\n      <div class="btn">\n\n        <label for="insert" id="attach">\n\n          <ion-icon ios="ios-add" md="md-add"></ion-icon>\n\n        </label>\n\n        <input type="file" id="insert" accept="image/*" (change)="insertvid($event)">\n\n      </div>\n\n      <img class="preview" [src]="url" alt="" imageViewer>\n\n    </div>\n\n    <br>\n\n    <ion-list no-lines>\n\n      <div class="cat">\n\n        <ion-item class="theItem">\n\n          <ion-label>Category</ion-label>\n\n          <ion-select [(ngModel)]="category">\n\n            <ion-option value="Photography">Photography</ion-option>\n\n            <ion-option value="Sculpting">Sculpting</ion-option>\n\n            <ion-option value="Painting">Painting</ion-option>\n\n            <ion-option value="Fashion">Fashion/Clothing</ion-option>\n\n            <ion-option value="Drawing">Drawing</ion-option>\n\n            <ion-option value="General">General</ion-option>\n\n          </ion-select>\n\n        </ion-item>\n\n\n\n        <br>\n\n\n\n\n\n\n\n        <ion-input class="theItem" placeholder="Artwork Name" [(ngModel)]="name" type="text" maxlength="30"></ion-input>\n\n        <br>\n\n        <ion-input class="theItem" placeholder="Location" type="text" [(ngModel)]="location" maxlength="20" row="4"></ion-input>\n\n        <br>\n\n        <ion-input class="theItem" placeholder="Price (R)" [(ngModel)]="price" type="number" max="2"></ion-input>\n\n        <br>\n\n        <ion-textarea placeholder="Art Description (max 150)" [(ngModel)]="description" class="theItem" type="text" maxlength="150"\n\n          row="4"></ion-textarea>\n\n      </div>\n\n    </ion-list>\n\n\n\n    <button class="uploadBtn" ion-button full color="primary" (click)="uploadPicture()">Upload Artwork</button>\n\n  </div>'/*ion-inline-end:"C:\Users\Janet Zango\groupApp\TheAntz\src\pages\upload-image\upload-image.html"*/,
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["q" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["r" /* NavParams */], __WEBPACK_IMPORTED_MODULE_2__providers_streetart_database_streetart_database__["a" /* StreetartzProvider */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["x" /* ViewController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */]])
+    ], UploadImagePage);
+    return UploadImagePage;
+}());
+
+//# sourceMappingURL=upload-image.js.map
+
+/***/ }),
+
+/***/ 139:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PopOverProfilePage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_streetart_database_streetart_database__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__edit_profile_edit_profile__ = __webpack_require__(73);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__login_login__ = __webpack_require__(49);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+/**
+ * Generated class for the PopOverProfilePage page.
+ *
+ * See https://ionicframework.com/docs/components/#navigation for more info on
+ * Ionic pages and navigation.
+ */
+var PopOverProfilePage = /** @class */ (function () {
+    // obj;
+    function PopOverProfilePage(viewCrtl, navCtrl, navParams, art, loadingCtrl) {
+        this.viewCrtl = viewCrtl;
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+        this.art = art;
+        this.loadingCtrl = loadingCtrl;
+    }
+    PopOverProfilePage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad PopOverProfilePage');
+    };
+    PopOverProfilePage.prototype.nextpage = function () {
+        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_3__edit_profile_edit_profile__["a" /* EditProfilePage */]);
+        this.viewCrtl.dismiss();
+    };
+    PopOverProfilePage.prototype.logout = function () {
+        var _this = this;
+        this.art.logout().then(function () {
+            _this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_4__login_login__["a" /* LoginPage */]);
+            _this.presentLoading();
+        }, function (error) {
+            console.log(error.message);
+        });
+    };
+    PopOverProfilePage.prototype.presentLoading = function () {
+        var loader = this.loadingCtrl.create({
+            content: 'signing out....',
+            duration: 1000
+        });
+        loader.present();
+    };
+    PopOverProfilePage = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'page-pop-over-profile',template:/*ion-inline-start:"C:\Users\Janet Zango\groupApp\TheAntz\src\pages\pop-over-profile\pop-over-profile.html"*/'<!--\n  Generated template for the PopOverProfilePage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n\n\n<ion-content padding>\n<button ion-button clear (click)="nextpage()">Edit Profile</button>\n<button ion-button clear (click)="logout()">Log Out</button>\n</ion-content>\n'/*ion-inline-end:"C:\Users\Janet Zango\groupApp\TheAntz\src\pages\pop-over-profile\pop-over-profile.html"*/,
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["x" /* ViewController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["q" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["r" /* NavParams */], __WEBPACK_IMPORTED_MODULE_2__providers_streetart_database_streetart_database__["a" /* StreetartzProvider */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["n" /* LoadingController */]])
+    ], PopOverProfilePage);
+    return PopOverProfilePage;
+}());
+
+//# sourceMappingURL=pop-over-profile.js.map
+
+/***/ }),
+
+/***/ 140:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ForgotPasswordPage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_streetart_database_streetart_database__ = __webpack_require__(22);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var ForgotPasswordPage = /** @class */ (function () {
+    function ForgotPasswordPage(alertCtrl, navCtrl, art, navParams) {
+        this.alertCtrl = alertCtrl;
+        this.navCtrl = navCtrl;
+        this.art = art;
+        this.navParams = navParams;
+        this.obj = {};
+    }
+    ForgotPasswordPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad ForgotPasswordPage');
+    };
+    ForgotPasswordPage.prototype.forgotpassword = function (obj) {
+        this.art.forgotpassword(this.obj.email).then(function () {
+            // if(this.obj.email !=undefined){
+            //   const alert = this.alertCtrl.create({
+            //     subTitle: 'invalid email.',
+            //     buttons: ['OK']
+            //   });
+            //   alert.present();
+            // }
+        }, function (error) {
+            alert(error);
+        });
+    };
+    ForgotPasswordPage = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'page-forgot-password',template:/*ion-inline-start:"C:\Users\Janet Zango\groupApp\TheAntz\src\pages\forgot-password\forgot-password.html"*/'<!--\n\n  Generated template for the ForgotPasswordPage page.\n\n\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n\n  Ionic pages and navigation.\n\n-->\n\n<ion-header color="secondary">\n\n\n\n  <ion-navbar color="secondary">\n\n    <ion-title align="center">Forgot Password</ion-title>\n\n  </ion-navbar>\n\n\n\n</ion-header>\n\n\n\n\n\n<ion-content padding>\n\n\n\n  <div class="theForm">\n\n    <div class="contents">\n\n          <p>Please enter your email address to reset your password.</p>\n\n    <br>\n\n    <ion-item no-lines>\n\n      <ion-input class="theTXT" placeholder="Email" type="email" [(ngModel)]="obj.email"></ion-input>\n\n    </ion-item>\n\n    <br>\n\n    <button ion-button (click)="forgotpassword(obj)">RESET PASSWORD</button>\n\n\n\n    </div>\n\n  </div>\n\n\n\n</ion-content>'/*ion-inline-end:"C:\Users\Janet Zango\groupApp\TheAntz\src\pages\forgot-password\forgot-password.html"*/,
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["q" /* NavController */], __WEBPACK_IMPORTED_MODULE_2__providers_streetart_database_streetart_database__["a" /* StreetartzProvider */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["r" /* NavParams */]])
+    ], ForgotPasswordPage);
+    return ForgotPasswordPage;
+}());
+
+//# sourceMappingURL=forgot-password.js.map
+
+/***/ }),
+
+/***/ 141:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return EulaPage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_streetart_database_streetart_database__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__signup_signup__ = __webpack_require__(142);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__login_login__ = __webpack_require__(49);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+/**
+ * Generated class for the EulaPage page.
+ *
+ * See https://ionicframework.com/docs/components/#navigation for more info on
+ * Ionic pages and navigation.
+ */
+var EulaPage = /** @class */ (function () {
+    function EulaPage(navCtrl, navParams, art) {
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+        this.art = art;
+    }
+    EulaPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad EulaPage');
+    };
+    EulaPage.prototype.contract = function () {
+        this.art.LicenceContract();
+        this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_3__signup_signup__["a" /* SignupPage */]);
+    };
+    EulaPage.prototype.goBack = function () {
+        this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_4__login_login__["a" /* LoginPage */]);
+    };
+    EulaPage = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'page-eula',template:/*ion-inline-start:"C:\Users\Janet Zango\groupApp\TheAntz\src\pages\eula\eula.html"*/'<ion-header class="agrees">\n\n  <ion-toolbar>\n\n    <ion-buttons left>\n\n      <button ion-button clear color="dark" (click)="goBack()">\n\n        <ion-icon name="arrow-back"></ion-icon>\n\n      </button>\n\n    </ion-buttons>\n\n    <ion-title>\n\n      \n\n    </ion-title>\n\n  </ion-toolbar>\n\n\n\n</ion-header>\n\n\n\n<ion-content padding class="agree">\n\n  <ion-fab>\n\n  </ion-fab>\n\n  <h4>EndUser License Agreement</h4>\n\n\n\n  <p>Last updated: 11 October 2018\n\n    <br> Please read this End­ User License Agreement ("Agreement") carefully before clicking the "I Agree" button, downloading or using ​\n\n    Street Artz ("Application").\n\n    <br> By clicking the "I Agree" button, downloading or using the Application, you agree to be bound by the terms and conditions of this Agreement.\n\n    If you do not agree to the terms of this Agreement, do not click on the "I Agree" button and do not go further with the\n\n    application, do not download or use the Application.\n\n    <br>\n\n    <br>\n\n    <b>License</b>\n\n    <br>The Antz Dev. Team grants you a revocable, non­exclusive, non­transferable, limited license to download, install and use the Application\n\n    solely for your personal, non­commercial purposes  strictly in accordance with the terms of this Agreement.\n\n    <br>\n\n\n\n\n\n    <br>\n\n    <b>Terms of use</b>\n\n    <br> The Antz Dev. Team reserves the right to remove any user who posts content that they have no ownership of.\n\n    <br> The Antz Dev. Team is not responsible for all content that is posted on the Street Artz, if the user posts content that\n\n    is not theirs, the owners reserve the right to take lawful action and The Antz Dev. Team reserve to right to suspend\n\n    or permanently terminate the user\'s account.\n\n    <br>\n\n    <br>\n\n    <b>Restrictions</b>\n\n    <i>You agree not to, and you will not permit others to:</i>\n\n    <br> a) license, sell, rent, lease, assign, distribute, transmit, host, outsource, disclose or otherwise commercially exploit the Application or make the Application available to any third party. The Restrictions section is for applying certain restrictions on the app usage, e.g. user can\'t sell\n\n    app, user can\'t distribute the app. For the full disclosure section, ​ create your own EULA​.\n\n    <br> b) post irrelevant and/ or explicit content.\n\n    <br>\n\n    <br>\n\n    <b>Modifications to Application</b>\n\n    <br> The Antz Dev. Team  reserves the right to modify, suspend or discontinue, temporarily or permanently, the Application or any service to which it connects, with or without notice and without\n\n    liability to you. The Modifications to Application section is for apps that will be updated or regularly maintained.\n\n    For the full disclosure section, ​ create your own EULA​. Term and Termination    This Agreement shall remain in effect until terminated by you or ​\n\n    The Antz Dev. Team​.\n\n    <br> The Antz Dev. Team may, in its sole discretion, at any time and for any or no reason, suspend or terminate this Agreement with or without prior notice.\n\n      This Agreement will terminate immediately, without prior notice from ​ The Antz Dev. Team, in the event that you fail to comply with any provision of this Agreement. You may also terminate this\n\n    Agreement by deleting the Application and all copies thereof from your mobile device. Upon termination of this Agreement, you shall cease all use of the Application and delete all copies\n\n    of the Application from your mobile device.\n\n    <br>\n\n    <br>\n\n    <b>Severability</b>\n\n    <br> If any provision of this Agreement is held to be unenforceable or invalid, such provision will be changed and interpreted to accomplish the objectives of such provision to the greatest extent\n\n    possible under applicable law and the remaining provisions will continue in full force and effect.\n\n    <br>\n\n    <br>\n\n    <b>Amendments to this Agreement</b>\n\n    <br>     The Antz Dev. Team​  reserves the right, at its sole discretion, to modify or replace this Agreement at any time. If a revision is material we will provide at least ​\n\n    10​  days\' notice  prior to any new terms taking effect. What constitutes a material change will be determined at our\n\n    sole discretion.\n\n    <br>\n\n    <br>\n\n    <b>Contact Information</b>\n\n    <br> If you have any questions about this Agreement, please contact us on theantz39@gmail.com</p>\n\n  <br>\n\n  <button ion-button block color="primary" outline (click)="contract()">I Agree</button>\n\n\n\n</ion-content>'/*ion-inline-end:"C:\Users\Janet Zango\groupApp\TheAntz\src\pages\eula\eula.html"*/,
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["q" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["r" /* NavParams */], __WEBPACK_IMPORTED_MODULE_2__providers_streetart_database_streetart_database__["a" /* StreetartzProvider */]])
+    ], EulaPage);
+    return EulaPage;
+}());
+
+//# sourceMappingURL=eula.js.map
+
+/***/ }),
+
+/***/ 142:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SignupPage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__login_login__ = __webpack_require__(49);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_streetart_database_streetart_database__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__category_category__ = __webpack_require__(46);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+var SignupPage = /** @class */ (function () {
+    function SignupPage(viewCtrl, navCtrl, navParams, art, toastCtrl, alertCtrl, modalCtrl, loadingCtrl) {
+        this.viewCtrl = viewCtrl;
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+        this.art = art;
+        this.toastCtrl = toastCtrl;
+        this.alertCtrl = alertCtrl;
+        this.modalCtrl = modalCtrl;
+        this.loadingCtrl = loadingCtrl;
+        this.obj = {};
+    }
+    SignupPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad SignupPage');
+    };
+    SignupPage.prototype.signUp = function () {
+        var _this = this;
+        if (this.obj.email == null || this.obj.email == undefined) {
+            var alert = this.alertCtrl.create({
+                subTitle: 'Please enter your Email.',
+                buttons: ['OK']
+            });
+            alert.present();
+        }
+        else if (this.obj.name == null || this.obj.name == undefined) {
+            var alert = this.alertCtrl.create({
+                subTitle: 'Please enter your Name.',
+                buttons: ['OK']
+            });
+            alert.present();
+        }
+        else if (this.obj.password.length < 6 || this.obj.password == null) {
+            var alert = this.alertCtrl.create({
+                subTitle: 'Please enter minimum of 6 characters.',
+                buttons: ['OK']
+            });
+            alert.present();
+        }
+        else {
+            this.art.register(this.obj).then(function () {
+                _this.presentLoading();
+                _this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_4__category_category__["a" /* CategoryPage */]);
+                _this.presentLoading1();
+            }, function (error) {
+                console.log(error.message);
+            });
+        }
+    };
+    SignupPage.prototype.dismiss = function () {
+        this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_2__login_login__["a" /* LoginPage */]);
+    };
+    SignupPage.prototype.presentLoading = function () {
+        var toast = this.toastCtrl.create({
+            message: this.obj.email + 'You have succesfflly registered',
+            duration: 2000
+        });
+        toast.present();
+    };
+    SignupPage.prototype.presentLoading1 = function () {
+        var loader = this.loadingCtrl.create({
+            content: "loading....",
+            duration: 5000
+        });
+        loader.present();
+    };
+    SignupPage.prototype.onKeyPress = function (event) {
+        if ((event.keyCode >= 65 && event.keyCode <= 90) || (event.keyCode >= 97 && event.keyCode <= 122) || event.keyCode == 32 || event.keyCode == 46) {
+            return true;
+        }
+        else {
+            var toast = this.toastCtrl.create({
+                message: event.keyCode - 48 + ' is not allowed as a name',
+                duration: 2000
+            });
+            toast.present();
+            return false;
+        }
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])('input'),
+        __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["t" /* ElementRef */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["t" /* ElementRef */]) === "function" && _a || Object)
+    ], SignupPage.prototype, "myInput", void 0);
+    SignupPage = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'page-signup',template:/*ion-inline-start:"C:\Users\Janet Zango\groupApp\TheAntz\src\pages\signup\signup.html"*/'<ion-content class="container">\n\n  <div>\n\n    <button ion-button class="backBTN" icon-only (click)="dismiss()" clear>\n\n      <ion-icon name="arrow-back"></ion-icon>\n\n    </button>\n\n  </div>\n\n  <div class="everything">\n\n    <div class="logo">\n\n      <img src="../../assets/imgs/theLogo/ANTZ Logo.png" alt="">\n\n    </div>\n\n    <div class="items">\n\n      <ion-list no-lines>\n\n        <div class="textFields">\n\n          <ion-input type="text" #input (keypress)="onKeyPress($event)" placeholder="Full Name" [(ngModel)]="obj.name"></ion-input>\n\n          <ion-input type="email" placeholder="Email" [(ngModel)]="obj.email"></ion-input>\n\n          <ion-input type="password" placeholder="Password (min 6 char)" [(ngModel)]="obj.password"></ion-input>\n\n        </div>\n\n      </ion-list>\n\n      <button id="button" ion-button block (click)="signUp()">\n\n        Sign Up\n\n      </button>\n\n    </div>\n\n    <br>\n\n  </div>\n\n</ion-content>'/*ion-inline-end:"C:\Users\Janet Zango\groupApp\TheAntz\src\pages\signup\signup.html"*/,
+        }),
+        __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["x" /* ViewController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["x" /* ViewController */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["q" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["q" /* NavController */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["r" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["r" /* NavParams */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_3__providers_streetart_database_streetart_database__["a" /* StreetartzProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__providers_streetart_database_streetart_database__["a" /* StreetartzProvider */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["v" /* ToastController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["v" /* ToastController */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */]) === "function" && _g || Object, typeof (_h = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["o" /* ModalController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["o" /* ModalController */]) === "function" && _h || Object, typeof (_j = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["n" /* LoadingController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["n" /* LoadingController */]) === "function" && _j || Object])
+    ], SignupPage);
+    return SignupPage;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j;
+}());
+
+//# sourceMappingURL=signup.js.map
+
+/***/ }),
+
+/***/ 143:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ViewPage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_streetart_database_streetart_database__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_email_composer__ = __webpack_require__(323);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__category_category__ = __webpack_require__(46);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+/**
+ * Generated class for the ViewPage page.
+ *
+ * See https://ionicframework.com/docs/components/#navigation for more info on
+ * Ionic pages and navigation.
+ */
+var ViewPage = /** @class */ (function () {
+    function ViewPage(navCtrl, navParams, art, emailComposer) {
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+        this.art = art;
+        this.emailComposer = emailComposer;
+        this.arr = [];
+        this.arr2 = [];
+        this.Comments = [];
+        this.likeArr = [];
+        this.CommentArr = [];
+        this.obj = this.navParams.get("obj");
+        this.obj = this.navParams.get("obj");
+        console.log("this is my index");
+        console.log(this.email);
+        this.username = this.obj.username;
+        this.downloadurl = this.obj.pic;
+        this.keys2 = this.obj.key;
+        this.downloadurl1 = this.obj.url;
+        this.numComments = this.obj.comments;
+        this.email = this.obj.email;
+        this.name = this.obj.name;
+        this.description = this.obj.description;
+        this.location = this.obj.location;
+        this.price = this.obj.price;
+        this.numlikes = this.obj.likes;
+        this.viewcomments();
+        this.emailComposer.isAvailable().then(function (available) {
+            if (available) {
+                console.log(available);
+            }
+        });
+    }
+    ViewPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad ViewPage');
+        this.currentUserId = this.art.returnUID();
+    };
+    ViewPage.prototype.BuyArt = function () {
+        var email = {
+            to: this.obj.email,
+            cc: 'theantz39@gmail.com',
+            attachments: [
+                this.downloadurl
+            ],
+            subject: this.obj.username,
+            body: this.obj.pic,
+            isHtml: true
+        };
+        this.emailComposer.open(email);
+    };
+    ViewPage.prototype.GoBackToCategory = function () {
+        this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_4__category_category__["a" /* CategoryPage */]);
+    };
+    ViewPage.prototype.viewcomments = function () {
+        var _this = this;
+        this.art.viewComments(this.obj.key, this.comment).then(function (data) {
+            console.log(data);
+            var keys1 = Object.keys(data);
+            for (var i = 0; i < keys1.length; i++) {
+                var key = keys1[i];
+                var obj = {
+                    comment: data[key].comment,
+                    uid: data[key].uid,
+                    downloadurl: data[key].url,
+                    username: data[key].username,
+                    date: data[key].date
+                };
+                _this.CommentArr.push(obj);
+                console.log(_this.CommentArr);
+            }
+            _this.commentsLeng = _this.CommentArr.length;
+        });
+    };
+    ViewPage.prototype.likePicture = function () {
+        var _this = this;
+        this.art.viewLikes(this.obj.key).then(function (data) {
+            console.log(data);
+            if (data == "not found") {
+                _this.art.likePic(_this.obj.key);
+                _this.art.addNumOfLikes(_this.obj.key, _this.numlikes);
+                _this.numlikes++;
+            }
+            else {
+                _this.art.removeLike(_this.obj.key, _this.numlikes, data);
+                _this.numlikes--;
+            }
+        });
+    };
+    ViewPage.prototype.CommentPic = function (key) {
+        var _this = this;
+        this.art.comments(this.obj.key, this.comment).then(function (data) {
+            _this.art.addNumOfComments(_this.obj.key, _this.numComments).then(function (data) {
+                _this.art.viewComments(_this.obj.key, _this.viewComments).then(function (data) {
+                    _this.arr2.length = 0;
+                    _this.viewcomments();
+                });
+            });
+            _this.numComments++;
+        });
+        this.comment = "";
+    };
+    ViewPage = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'page-view',template:/*ion-inline-start:"C:\Users\Janet Zango\groupApp\TheAntz\src\pages\view\view.html"*/'<ion-content>\n\n  <ion-fab top left>\n\n    <button ion-button clear icon-only color="light" (click)="GoBackToCategory()">\n\n      <ion-icon class="ico" name="arrow-back"></ion-icon>\n\n    </button>\n\n  </ion-fab>\n\n  <div class="post">\n\n    <img class="postedIMG" src="{{downloadurl}}" />\n\n    <ion-grid>\n\n      <ion-row>\n\n        <ion-col col-9>\n\n          <ion-item color="light" class="arter" no-lines>\n\n            <ion-avatar item-start>\n\n              <img src="{{downloadurl1}}" />\n\n            </ion-avatar>\n\n            <h2 class="artistName">{{name}} <br></h2>\n\n            <p id="Location">\n\n              <ion-icon ios="ios-pin" md="md-pin"></ion-icon> {{location}}</p>\n\n\n\n          </ion-item>\n\n        </ion-col>\n\n        <ion-col col-3>\n\n          <button class="buy" ion-button outline (click)="BuyArt()">\n\n            R{{price}}\n\n          </button>\n\n        </ion-col>\n\n      </ion-row>\n\n    </ion-grid>\n\n\n\n    <div class="title">\n\n      <h4 class="caption">{{username}}</h4>\n\n      <p class="statementa">\n\n        {{description}}\n\n      </p>\n\n      <ion-grid>\n\n        <ion-row>\n\n          <ion-col>\n\n            <button class="statements" ion-button clear (click)="likePicture()"> {{numlikes}} Likes</button>\n\n          </ion-col>\n\n          <ion-col>\n\n            <button ion-button class="statements" clear>{{numComments}} Comments</button>\n\n          </ion-col>\n\n        </ion-row>\n\n      </ion-grid>\n\n    </div>\n\n  </div>\n\n  <div>\n\n    <ion-list *ngFor="let a of CommentArr">\n\n      <ion-card>\n\n        <ion-item>\n\n          <ion-avatar item-start>\n\n            <img [src]="a.downloadurl">\n\n          </ion-avatar>\n\n          <h2 class="Caps-Lock">{{a.username}}</h2>\n\n          <p>{{a.date}}</p>\n\n        </ion-item>\n\n        <ion-card-content>\n\n          <p>{{a.comment}}</p>\n\n        </ion-card-content>\n\n      </ion-card>\n\n    </ion-list>\n\n  </div>\n\n</ion-content>\n\n<ion-footer no-padding>\n\n  <ion-toolbar>\n\n    <ion-row>\n\n      <ion-col col-10>\n\n        <ion-input type="text" [(ngModel)]="comment" placeholder="Comment" id="commentTXT"></ion-input>\n\n      </ion-col>\n\n      <ion-col col-2>\n\n        <button ion-button class="sendBtn" item-end icon-only large (click)="CommentPic(numComments)">\n\n          <ion-icon name="send"></ion-icon>\n\n        </button>\n\n      </ion-col>\n\n    </ion-row>\n\n  </ion-toolbar>\n\n</ion-footer>'/*ion-inline-end:"C:\Users\Janet Zango\groupApp\TheAntz\src\pages\view\view.html"*/,
+        })
+        //viewpage Ts\\
+        ,
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["q" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["r" /* NavParams */], __WEBPACK_IMPORTED_MODULE_2__providers_streetart_database_streetart_database__["a" /* StreetartzProvider */], __WEBPACK_IMPORTED_MODULE_3__ionic_native_email_composer__["a" /* EmailComposer */]])
+    ], ViewPage);
+    return ViewPage;
+}());
+
+//# sourceMappingURL=view.js.map
+
+/***/ }),
+
+/***/ 144:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SplashPage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__login_login__ = __webpack_require__(49);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+/**
+ * Generated class for the SplashPage page.
+ *
+ * See https://ionicframework.com/docs/components/#navigation for more info on
+ * Ionic pages and navigation.
+ */
+var SplashPage = /** @class */ (function () {
+    function SplashPage(navCtrl, navParams) {
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+    }
+    SplashPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad SplashPage');
+        this.GoToSignIn();
+    };
+    SplashPage.prototype.GoToSignIn = function () {
+        var _this = this;
+        var timer = setInterval(function () {
+            _this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_2__login_login__["a" /* LoginPage */]);
+            clearInterval(timer);
+        }, 8000);
+    };
+    SplashPage = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'page-splash',template:/*ion-inline-start:"C:\Users\Janet Zango\groupApp\TheAntz\src\pages\splash\splash.html"*/'\n<ion-header>\n</ion-header>\n<ion-content class="body">\n  <div class="body">\n    <div class="theLogo">\n      <img class="logo" src="../../assets/imgs/theLogo/ANTZ Logo.png" alt="logo">\n    </div>\n  </div>\n</ion-content>'/*ion-inline-end:"C:\Users\Janet Zango\groupApp\TheAntz\src\pages\splash\splash.html"*/,
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["q" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["r" /* NavParams */]])
+    ], SplashPage);
+    return SplashPage;
+}());
+
+//# sourceMappingURL=splash.js.map
+
+/***/ }),
+
+/***/ 154:
+/***/ (function(module, exports) {
+
+function webpackEmptyAsyncContext(req) {
+	// Here Promise.resolve().then() is used instead of new Promise() to prevent
+	// uncatched exception popping up in devtools
+	return Promise.resolve().then(function() {
+		throw new Error("Cannot find module '" + req + "'.");
+	});
+}
+webpackEmptyAsyncContext.keys = function() { return []; };
+webpackEmptyAsyncContext.resolve = webpackEmptyAsyncContext;
+module.exports = webpackEmptyAsyncContext;
+webpackEmptyAsyncContext.id = 154;
+
+/***/ }),
+
+/***/ 197:
+/***/ (function(module, exports, __webpack_require__) {
+
+var map = {
+	"../pages/category/category.module": [
+		561,
+		11
+	],
+	"../pages/edit-profile/edit-profile.module": [
+		562,
+		10
+	],
+	"../pages/eula/eula.module": [
+		563,
+		9
+	],
+	"../pages/forgot-password/forgot-password.module": [
+		564,
+		8
+	],
+	"../pages/login/login.module": [
+		565,
+		7
+	],
+	"../pages/pop-over-profile/pop-over-profile.module": [
+		566,
+		6
+	],
+	"../pages/profile/profile.module": [
+		567,
+		5
+	],
+	"../pages/signup/signup.module": [
+		568,
+		4
+	],
+	"../pages/splash/splash.module": [
+		569,
+		3
+	],
+	"../pages/upload-image/upload-image.module": [
+		570,
+		2
+	],
+	"../pages/uploaded/uploaded.module": [
+		571,
+		0
+	],
+	"../pages/view/view.module": [
+		572,
+		1
+	]
+};
+function webpackAsyncContext(req) {
+	var ids = map[req];
+	if(!ids)
+		return Promise.reject(new Error("Cannot find module '" + req + "'."));
+	return __webpack_require__.e(ids[1]).then(function() {
+		return __webpack_require__(ids[0]);
+	});
+};
+webpackAsyncContext.keys = function webpackAsyncContextKeys() {
+	return Object.keys(map);
+};
+webpackAsyncContext.id = 197;
+module.exports = webpackAsyncContext;
+
+/***/ }),
+
+/***/ 22:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return StreetartzProvider; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_firebase__ = __webpack_require__(198);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_firebase___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_firebase__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_moment__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_moment__);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+/*
+  Generated class for the StreetartzProvider provider.
+  See https://angular.io/guide/dependency-injection for more info on providers
+  and Angular DI.
+*/
+var StreetartzProvider = /** @class */ (function () {
+    function StreetartzProvider(toastCtrl, alertCtrl, loadingCtrl) {
+        this.toastCtrl = toastCtrl;
+        this.alertCtrl = alertCtrl;
+        this.loadingCtrl = loadingCtrl;
+        this.obj = {};
+        this.arr = [];
+        this.keyArr = [];
+        this.arr2 = [];
+        this.data = [];
+        this.list = [];
+        this.likeArr = [];
+        console.log('Hello StreetartzProvider Provider');
+    }
+    StreetartzProvider.prototype.checkstate = function () {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            __WEBPACK_IMPORTED_MODULE_2_firebase___default.a.auth().onAuthStateChanged(function (user) {
+                if (user != null) {
+                    _this.condition = 1;
+                }
+                else {
+                    _this.condition = 0;
+                }
+                resolve(_this.condition);
+            });
+        });
+    };
+    StreetartzProvider.prototype.logout = function () {
+        var loader = this.loadingCtrl.create({
+            spinner: 'bubbles',
+            content: 'signing out....',
+            duration: 3000
+        });
+        loader.present();
+        return new Promise(function (resolve, reject) {
+            __WEBPACK_IMPORTED_MODULE_2_firebase___default.a.auth().signOut().then(function () {
+                loader.present();
+                resolve();
+            }, function (error) {
+                reject(error);
+            });
+        });
+    };
+    StreetartzProvider.prototype.register = function (obj) {
+        var _this = this;
+        return __WEBPACK_IMPORTED_MODULE_2_firebase___default.a.auth().createUserWithEmailAndPassword(this.obj.email, this.obj.password).then(function (newUser) {
+            var user = __WEBPACK_IMPORTED_MODULE_2_firebase___default.a.auth().currentUser;
+            __WEBPACK_IMPORTED_MODULE_2_firebase___default.a.database().ref("profiles/" + user.uid).set({
+                name: obj.name,
+                email: obj.email,
+                password: obj.password,
+                contact: "",
+                downloadurl: '../../assets/download.png',
+                bio: "You have not yet inserted a description about your skills and abilities, update profile to get started.",
+            });
+        }).catch(function (error) {
+            var alert = _this.alertCtrl.create({
+                subTitle: error.message,
+                buttons: [
+                    {
+                        text: 'ok',
+                        handler: function (data) {
+                            console.log('Cancel clicked');
+                        }
+                    }
+                ]
+            });
+            alert.present();
+            console.log(error);
+        });
+    };
+    StreetartzProvider.prototype.login = function (email, password) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            __WEBPACK_IMPORTED_MODULE_2_firebase___default.a.auth().signInWithEmailAndPassword(email, password).then(function () {
+                resolve();
+            }).catch(function (error) {
+                var alert = _this.alertCtrl.create({
+                    subTitle: error.message,
+                    buttons: [
+                        {
+                            text: 'ok',
+                            handler: function (data) {
+                                console.log('Cancel clicked');
+                            }
+                        }
+                    ]
+                });
+                alert.present();
+                console.log(error);
+            });
+        });
+    };
+    StreetartzProvider.prototype.retrieve = function () {
+        var userID = __WEBPACK_IMPORTED_MODULE_2_firebase___default.a.auth().currentUser;
+        return __WEBPACK_IMPORTED_MODULE_2_firebase___default.a.database().ref("profiles/" + userID.uid);
+    };
+    StreetartzProvider.prototype.profile = function () {
+        var _this = this;
+        this.arr.length = 0;
+        return new Promise(function (pass, fail) {
+            var userID = __WEBPACK_IMPORTED_MODULE_2_firebase___default.a.auth().currentUser;
+            __WEBPACK_IMPORTED_MODULE_2_firebase___default.a.database().ref("profiles/" + userID.uid).on('value', function (data) {
+                var details = data.val();
+                _this.arr.push(details);
+                console.log(_this.arr);
+            });
+            pass(_this.arr);
+        });
+    };
+    StreetartzProvider.prototype.forgotpassword = function (email) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            if (email != null || email != undefined) {
+                __WEBPACK_IMPORTED_MODULE_2_firebase___default.a.auth().sendPasswordResetEmail(email);
+                var alert = _this.alertCtrl.create({
+                    title: 'Password request Sent',
+                    subTitle: "We've sent you and email with a reset link, go to your email to recover your account.",
+                    buttons: ['OK']
+                });
+                alert.present();
+                resolve();
+            }
+            else if (email == null || email == undefined) {
+                var alert = _this.alertCtrl.create({
+                    subTitle: 'Please enter your Email.',
+                    buttons: ['OK']
+                });
+                alert.present();
+            }
+        }).catch(function (error) {
+            var alert = _this.alertCtrl.create({
+                subTitle: error.message,
+                buttons: [
+                    {
+                        text: 'ok',
+                        handler: function (data) {
+                            console.log('Cancel clicked');
+                        }
+                    }
+                ]
+            });
+            alert.present();
+            console.log(error);
+        });
+    };
+    StreetartzProvider.prototype.uploadPic = function (pic, name) {
+        var loading = this.loadingCtrl.create({
+            spinner: 'bubbles',
+            content: 'Please wait',
+            duration: 3000
+        });
+        var toast = this.toastCtrl.create({
+            message: 'Your image has been added!',
+            duration: 3000
+        });
+        return new Promise(function (accpt, rejc) {
+            loading.present();
+            __WEBPACK_IMPORTED_MODULE_2_firebase___default.a.storage().ref(name).putString(pic, 'data_url').then(function () {
+                accpt(name);
+                toast.present();
+            }, function (Error) {
+                rejc(Error.message);
+            });
+        });
+    };
+    StreetartzProvider.prototype.storeToDB = function (name, category, picName, description, location, price) {
+        return new Promise(function (accpt, rejc) {
+            var storageRef = __WEBPACK_IMPORTED_MODULE_2_firebase___default.a.storage().ref(name);
+            storageRef.getDownloadURL().then(function (url) {
+                console.log(url);
+                var user = __WEBPACK_IMPORTED_MODULE_2_firebase___default.a.auth().currentUser;
+                var link = url;
+                __WEBPACK_IMPORTED_MODULE_2_firebase___default.a.database().ref('uploads/').push({
+                    downloadurl: link,
+                    name: picName,
+                    category: category,
+                    uid: user.uid,
+                    description: description,
+                    location: location,
+                    price: price,
+                    likes: 0,
+                    comments: 0
+                });
+                accpt('success');
+            }, function (Error) {
+                rejc(Error.message);
+                console.log(Error.message);
+            });
+        });
+    };
+    StreetartzProvider.prototype.viewPicGallery = function () {
+        var _this = this;
+        // let loading = this.loadingCtrl.create({
+        //   spinner: 'bubbles',
+        //   content: 'Please wait',
+        //   duration: 3000
+        // });
+        return new Promise(function (accpt, rejc) {
+            // loading.present();
+            var user = __WEBPACK_IMPORTED_MODULE_2_firebase___default.a.auth().currentUser;
+            __WEBPACK_IMPORTED_MODULE_2_firebase___default.a.database().ref("uploads").on("value", function (data) {
+                var DisplayData = data.val();
+                if (DisplayData == null) {
+                    _this.arr2 = null;
+                    var alert = _this.alertCtrl.create({
+                        subTitle: 'You have no art work yet',
+                        buttons: ['OK']
+                    });
+                    alert.present();
+                }
+                accpt(DisplayData);
+                console.log(DisplayData);
+            }, function (Error) {
+                rejc(Error.message);
+            });
+        });
+    };
+    StreetartzProvider.prototype.getUserID = function () {
+        return new Promise(function (accpt, rejc) {
+            var user = __WEBPACK_IMPORTED_MODULE_2_firebase___default.a.auth().currentUser;
+            __WEBPACK_IMPORTED_MODULE_2_firebase___default.a.database().ref("uploads").on("value", function (data) {
+                var a = data.val();
+                if (a !== null) {
+                }
+                accpt(user.uid);
+            }, function (Error) {
+                rejc(Error.message);
+            });
+        });
+    };
+    StreetartzProvider.prototype.uploadProfilePic = function (pic, name) {
+        var loading = this.loadingCtrl.create({
+            spinner: 'bubbles',
+            content: 'Please wait',
+            duration: 3000
+        });
+        var toast = this.toastCtrl.create({
+            message: 'picture was uploaded',
+            duration: 3000
+        });
+        return new Promise(function (accpt, rejc) {
+            loading.present();
+            __WEBPACK_IMPORTED_MODULE_2_firebase___default.a.storage().ref(name).putString(pic, 'data_url').then(function () {
+                accpt(name);
+                toast.present();
+            }, function (Error) {
+                rejc(Error.message);
+            });
+        });
+    };
+    StreetartzProvider.prototype.storeToDB1 = function (name) {
+        var _this = this;
+        return new Promise(function (accpt, rejc) {
+            _this.arr.length = 0;
+            var storageRef = __WEBPACK_IMPORTED_MODULE_2_firebase___default.a.storage().ref(name);
+            storageRef.getDownloadURL().then(function (url) {
+                console.log(url);
+                var user = __WEBPACK_IMPORTED_MODULE_2_firebase___default.a.auth().currentUser;
+                var link = url;
+                __WEBPACK_IMPORTED_MODULE_2_firebase___default.a.database().ref('profiles/' + user.uid).update({
+                    downloadurl: link,
+                });
+                accpt('success');
+            }, function (Error) {
+                rejc(Error.message);
+                console.log(Error.message);
+            });
+        });
+    };
+    StreetartzProvider.prototype.storeImgur = function (url) {
+        this.url = url;
+        console.log(url);
+    };
+    StreetartzProvider.prototype.storeName = function (name) {
+        this.obj.name = name;
+        console.log(this.obj.name);
+    };
+    StreetartzProvider.prototype.viewPicGallery1 = function () {
+        var _this = this;
+        // let loading = this.loadingCtrl.create({
+        //   spinner: 'bubbles',
+        //   content: 'Please wait',
+        //   duration: 3000
+        // });
+        return new Promise(function (accpt, rejc) {
+            // loading.present();
+            var user = __WEBPACK_IMPORTED_MODULE_2_firebase___default.a.auth().currentUser;
+            __WEBPACK_IMPORTED_MODULE_2_firebase___default.a.database().ref("profiles").on("value", function (data) {
+                var b = data.val();
+                var keys = Object.keys(b);
+                if (b !== null) {
+                }
+                _this.storeImgur(b[keys[0]].downloadurl);
+                console.log(b[keys[0]].downloadurl);
+                accpt(b);
+            }, function (Error) {
+                rejc(Error.message);
+            });
+        });
+    };
+    StreetartzProvider.prototype.getUserID1 = function () {
+        return new Promise(function (accpt, rejc) {
+            var userID = __WEBPACK_IMPORTED_MODULE_2_firebase___default.a.auth().currentUser;
+            __WEBPACK_IMPORTED_MODULE_2_firebase___default.a.database().ref("profiles").on("value", function (data) {
+                var b = data.val();
+                if (b !== null) {
+                }
+                console.log(b);
+                accpt(userID.uid);
+            }, function (Error) {
+                rejc(Error.message);
+            });
+        });
+    };
+    StreetartzProvider.prototype.selectCategory = function (category) {
+        var _this = this;
+        return new Promise(function (pass, fail) {
+            _this.arr.length = 0;
+            __WEBPACK_IMPORTED_MODULE_2_firebase___default.a.database().ref("uploads").on('value', function (data) {
+                var uploads = data.val();
+                console.log(uploads);
+                var keys2 = Object.keys(uploads);
+                var _loop_1 = function () {
+                    k = keys2[i];
+                    chckId = uploads[k].uid;
+                    if (category == uploads[k].category) {
+                        var obj_1 = {
+                            uid: uploads[k].uid,
+                            name: uploads[k].name,
+                            category: uploads[k].category,
+                            downloadurl: uploads[k].downloadurl,
+                            location: uploads[k].location,
+                            price: uploads[k].price,
+                            url: _this.url,
+                            username: "",
+                            email: uploads[k].email
+                        };
+                        _this.arr.push(obj_1);
+                        _this.viewProfileMain(chckId).then(function (profileData) {
+                            obj_1.username = profileData.name;
+                            obj_1.url = profileData.downloadurl;
+                            obj_1.email = profileData.email;
+                        });
+                        pass(_this.arr);
+                        console.log(_this.url);
+                    }
+                };
+                var k, chckId;
+                for (var i = 0; i < keys2.length; i++) {
+                    _loop_1();
+                }
+            }), pass(_this.arr);
+        });
+    };
+    StreetartzProvider.prototype.update = function (name, email, contact, bio, downloadurl) {
+        this.arr.length = 0;
+        var loading = this.loadingCtrl.create({
+            spinner: 'bubbles',
+            content: 'Please wait',
+            duration: 3000
+        });
+        var toast = this.toastCtrl.create({
+            message: 'data has been updated!',
+            duration: 3000
+        });
+        loading.present();
+        return new Promise(function (pass, fail) {
+            var user = __WEBPACK_IMPORTED_MODULE_2_firebase___default.a.auth().currentUser;
+            __WEBPACK_IMPORTED_MODULE_2_firebase___default.a.database().ref('profiles/' + user.uid).update({
+                name: name,
+                email: email,
+                contact: contact,
+                bio: bio,
+                downloadurl: downloadurl,
+            });
+            toast.present();
+        });
+    };
+    StreetartzProvider.prototype.push = function (obj) {
+        var _this = this;
+        return new Promise(function (pass, fail) {
+            __WEBPACK_IMPORTED_MODULE_2_firebase___default.a.database().ref("uploads").on('value', function (data) {
+                var uploads = data.val();
+                console.log(uploads);
+                if (data == null) {
+                }
+                else {
+                    var keys = Object.keys(uploads);
+                    for (var j = 0; j < keys.length; j++) {
+                        __WEBPACK_IMPORTED_MODULE_2_firebase___default.a.database().ref("uploads").on('value', function (data2) {
+                            var uploads2 = data2.val();
+                            console.log(uploads2);
+                            var keys2 = Object.keys(uploads2);
+                            var _loop_2 = function () {
+                                k = keys2[i];
+                                chckId = uploads[k].uid;
+                                if (_this.arr == uploads[k].arr) {
+                                    var obj_2 = {
+                                        name: uploads[k].name,
+                                        key: keys2,
+                                        downloadurl: uploads[k].downloadurl,
+                                        url: uploads[k].downloadurl,
+                                        comments: uploads[k].comments,
+                                        description: uploads[k].description,
+                                        location: uploads[k].location,
+                                        price: uploads[k].price,
+                                        email: uploads[k].email,
+                                        likes: data[k].likes,
+                                        username: uploads[k].username
+                                    };
+                                    _this.arr.push(obj_2);
+                                    console.log(_this.arr);
+                                    _this.viewProfileMain(chckId).then(function (profileData) {
+                                        obj_2.email = profileData.email;
+                                        obj_2.username = profileData.name;
+                                    });
+                                }
+                                pass(_this.arr);
+                            };
+                            var k, chckId;
+                            for (var i = 0; i < keys2.length; i++) {
+                                _loop_2();
+                            }
+                            _this.storeImgur(data[keys2[0]].downloadurl);
+                            console.log(data[keys2[0]].downloadurl);
+                        }), pass(_this.arr);
+                    }
+                }
+            });
+        });
+    };
+    StreetartzProvider.prototype.viewPicMain = function (name, username) {
+        var _this = this;
+        this.arr2.length = 0;
+        return new Promise(function (accpt, rejc) {
+            __WEBPACK_IMPORTED_MODULE_2_firebase___default.a.database().ref("uploads").on("value", function (data) {
+                var data = data.val();
+                if (data == null) {
+                    _this.arr2 = null;
+                    var alert = _this.alertCtrl.create({
+                        subTitle: 'No artwork is uploaded yet, go to your profile to get started.',
+                        buttons: ['OK']
+                    });
+                    alert.present();
+                }
+                else {
+                    var keys1 = Object.keys(data);
+                    console.log(keys1.length);
+                    for (var i = 0; i < keys1.length; i++) {
+                        var keys1 = Object.keys(data);
+                        var _loop_3 = function () {
+                            keys1 = Object.keys(data);
+                            k = keys1[i];
+                            chckId = data[k].uid;
+                            var obj_3 = {
+                                uid: data[k].uid,
+                                category: data[k].category,
+                                comments: data[k].comments,
+                                downloadurl: data[k].downloadurl,
+                                description: data[k].description,
+                                location: data[k].location,
+                                price: data[k].price,
+                                likes: data[k].likes,
+                                name: data[k].name,
+                                username: "",
+                                email: "",
+                                key: k,
+                                url: _this.url,
+                            };
+                            _this.arr2.push(obj_3);
+                            _this.viewProfileMain(chckId).then(function (profileData) {
+                                obj_3.username = profileData.name;
+                                obj_3.email = profileData.email;
+                                obj_3.url = profileData.downloadurl;
+                            });
+                            accpt(_this.arr2);
+                            _this.storeImgur(data[keys1[0]].downloadurl);
+                            console.log(_this.arr2);
+                        };
+                        var keys1, k, chckId;
+                        for (var i = 0; i < keys1.length; i++) {
+                            _loop_3();
+                        }
+                    }
+                }
+            }, function (Error) {
+                rejc(Error.message);
+            });
+        });
+    };
+    StreetartzProvider.prototype.viewProfileMain = function (userid) {
+        return new Promise(function (accpt, rejc) {
+            __WEBPACK_IMPORTED_MODULE_2_firebase___default.a.database().ref("profiles/" + userid).on("value", function (data) {
+                var a = data.val();
+                accpt(a);
+            }, function (Error) {
+                rejc(Error.message);
+            });
+        });
+    };
+    StreetartzProvider.prototype.comments = function (key, comment) {
+        var _this = this;
+        var user = __WEBPACK_IMPORTED_MODULE_2_firebase___default.a.auth().currentUser;
+        return new Promise(function (accpt, rejc) {
+            var day = __WEBPACK_IMPORTED_MODULE_3_moment___default()().format('MMMM Do YYYY, h:mm:ss a');
+            __WEBPACK_IMPORTED_MODULE_2_firebase___default.a.database().ref('comments/' + key).push({
+                comment: comment,
+                uid: user.uid,
+                date: day,
+                url: _this.url
+            });
+            accpt('success');
+        });
+    };
+    StreetartzProvider.prototype.viewComments = function (key, comment) {
+        var _this = this;
+        this.keyArr.length = 0;
+        return new Promise(function (accpt, rejc) {
+            var user = __WEBPACK_IMPORTED_MODULE_2_firebase___default.a.auth().currentUser;
+            __WEBPACK_IMPORTED_MODULE_2_firebase___default.a.database().ref("comments/" + key).on("value", function (data) {
+                var CommentDetails = data.val();
+                if (data == null) {
+                    _this.arr2 = null;
+                }
+                else {
+                    var keys1 = Object.keys(CommentDetails);
+                    console.log(CommentDetails);
+                    var _loop_4 = function () {
+                        key = keys1[i];
+                        chckId = CommentDetails[key].uid;
+                        var obj_4 = {
+                            comment: CommentDetails[key].comment,
+                            uid: user.uid,
+                            url: _this.url,
+                            date: __WEBPACK_IMPORTED_MODULE_3_moment___default()(CommentDetails[key].date, 'MMMM Do YYYY, h:mm:ss a').startOf('minutes').fromNow(),
+                            username: ""
+                        };
+                        accpt(_this.keyArr);
+                        _this.viewProfileMain(chckId).then(function (profileData) {
+                            obj_4.url = profileData.downloadurl;
+                            obj_4.username = profileData.name;
+                            _this.keyArr.push(obj_4);
+                            console.log(_this.keyArr);
+                        });
+                    };
+                    var key, chckId;
+                    for (var i = 0; i < keys1.length; i++) {
+                        _loop_4();
+                    }
+                }
+            }, function (Error) {
+                rejc(Error.message);
+            });
+        });
+    };
+    StreetartzProvider.prototype.addNumOfComments = function (key, numComments) {
+        numComments = numComments + 1;
+        return new Promise(function (accpt, rej) {
+            __WEBPACK_IMPORTED_MODULE_2_firebase___default.a.database().ref('uploads/' + key).update({ comments: numComments });
+            accpt('comment added');
+        });
+    };
+    // likePic(key, num) {
+    //   var user = firebase.auth().currentUser;
+    //   console.log(key)
+    //   return new Promise((accpt, rejc) => {
+    //     firebase.database().ref('likes/').child(key).on('value', snapshot => {
+    //       if (!snapshot.hasChild(user.uid)) {
+    //         num = num + 1;
+    //         firebase.database().ref('uploads/' + key).update({ likes: num });
+    //       }
+    //       else {
+    //         num = num - 1;
+    //         firebase.database().ref('uploads/' + key).update({ likes: num });
+    //         firebase.database().ref('likes/' + key).remove();
+    //       }
+    //       accpt('success');
+    //     });
+    //   })
+    // }
+    StreetartzProvider.prototype.likePic = function (key) {
+        console.log(key);
+        var user = __WEBPACK_IMPORTED_MODULE_2_firebase___default.a.auth().currentUser;
+        return new Promise(function (accpt, rejc) {
+            __WEBPACK_IMPORTED_MODULE_2_firebase___default.a.database().ref('likes/' + key).push({
+                uid: user.uid
+            });
+            accpt('success');
+        });
+    };
+    StreetartzProvider.prototype.viewLikes = function (key) {
+        this.keyArr.length = 0;
+        return new Promise(function (accpt, rejc) {
+            var user = __WEBPACK_IMPORTED_MODULE_2_firebase___default.a.auth().currentUser;
+            __WEBPACK_IMPORTED_MODULE_2_firebase___default.a.database().ref("likes/" + key).on("value", function (data) {
+                if (data.val() != undefined) {
+                    var likes = data.val();
+                    var results = "";
+                    var keys = Object.keys(likes);
+                    for (var x = 0; x < keys.length; x++) {
+                        __WEBPACK_IMPORTED_MODULE_2_firebase___default.a.database().ref("likes/" + key + '/' + keys[x]).on("value", function (data2) {
+                            if (data2.val() != undefined) {
+                                if (user.uid == data2.val().uid) {
+                                    results = keys[x];
+                                    accpt(results);
+                                }
+                                else {
+                                    results = "not found";
+                                }
+                            }
+                        });
+                    }
+                    accpt(results);
+                }
+                else {
+                    accpt("not found");
+                }
+            }, function (Error) {
+                rejc(Error.message);
+            });
+        });
+    };
+    StreetartzProvider.prototype.addNumOfLikes = function (key, num) {
+        console.log(key);
+        num = num + 1;
+        return new Promise(function (accpt, rej) {
+            __WEBPACK_IMPORTED_MODULE_2_firebase___default.a.database().ref('uploads/' + key).update({ likes: num });
+            accpt('like added');
+        });
+    };
+    StreetartzProvider.prototype.removeLike = function (key, num, key1) {
+        console.log(key1);
+        num = num - 1;
+        var user = __WEBPACK_IMPORTED_MODULE_2_firebase___default.a.auth().currentUser;
+        console.log(user.uid);
+        return new Promise(function (accpt, rej) {
+            __WEBPACK_IMPORTED_MODULE_2_firebase___default.a.database().ref('uploads/' + key).update({ likes: num });
+            __WEBPACK_IMPORTED_MODULE_2_firebase___default.a.database().ref('likes/' + key + '/' + key1).remove();
+            accpt('like removed');
+        });
+    };
+    StreetartzProvider.prototype.RemoveUploadedPicture = function (key) {
+        var _this = this;
+        return new Promise(function (accpt, rej) {
+            _this.arr.length = 0;
+            __WEBPACK_IMPORTED_MODULE_2_firebase___default.a.database().ref('uploads/' + key).remove();
+            console.log(key);
+            accpt('image deleted');
+        });
+    };
+    StreetartzProvider.prototype.LicenceContract = function () {
+        var user = __WEBPACK_IMPORTED_MODULE_2_firebase___default.a.auth().currentUser;
+        __WEBPACK_IMPORTED_MODULE_2_firebase___default.a.database().ref('contract/').set({});
+    };
+    StreetartzProvider.prototype.returnUID = function () {
+        var user = __WEBPACK_IMPORTED_MODULE_2_firebase___default.a.auth().currentUser;
+        return user.uid;
+    };
+    StreetartzProvider = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Injectable */])(),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["v" /* ToastController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["v" /* ToastController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["n" /* LoadingController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["n" /* LoadingController */]) === "function" && _c || Object])
+    ], StreetartzProvider);
+    return StreetartzProvider;
+    var _a, _b, _c;
+}());
+
+//# sourceMappingURL=streetart-database.js.map
+
+/***/ }),
+
+/***/ 386:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__ = __webpack_require__(387);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_module__ = __webpack_require__(394);
+
+
+Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* platformBrowserDynamic */])().bootstrapModule(__WEBPACK_IMPORTED_MODULE_1__app_module__["a" /* AppModule */]);
+//# sourceMappingURL=main.js.map
+
+/***/ }),
+
+/***/ 394:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__ = __webpack_require__(42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_angular__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_status_bar__ = __webpack_require__(365);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_streetart_database_streetart_database__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__app_component__ = __webpack_require__(452);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ionic_img_viewer__ = __webpack_require__(453);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ionic_native_splash_screen__ = __webpack_require__(366);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__angular_common_http__ = __webpack_require__(558);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_splash_splash__ = __webpack_require__(144);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_login_login__ = __webpack_require__(49);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__pages_signup_signup__ = __webpack_require__(142);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__pages_category_category__ = __webpack_require__(46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__pages_profile_profile__ = __webpack_require__(57);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__pages_upload_image_upload_image__ = __webpack_require__(138);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__pages_view_view__ = __webpack_require__(143);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__pages_edit_profile_edit_profile__ = __webpack_require__(73);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__pages_pop_over_profile_pop_over_profile__ = __webpack_require__(139);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__ionic_native_email_composer__ = __webpack_require__(323);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19_firebase__ = __webpack_require__(198);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19_firebase___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_19_firebase__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__pages_forgot_password_forgot_password__ = __webpack_require__(140);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__pages_eula_eula__ = __webpack_require__(141);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+__WEBPACK_IMPORTED_MODULE_19_firebase___default.a.initializeApp({
+    apiKey: "AIzaSyBJn72d9p4tVhdWkWsmecmKF4QjTHRXIj0",
+    authDomain: "streetartsdatabase.firebaseapp.com",
+    databaseURL: "https://streetartsdatabase.firebaseio.com",
+    projectId: "streetartsdatabase",
+    storageBucket: "streetartsdatabase.appspot.com",
+    messagingSenderId: "202504182684"
+});
+var AppModule = /** @class */ (function () {
+    function AppModule() {
+    }
+    AppModule = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["I" /* NgModule */])({
+            declarations: [
+                __WEBPACK_IMPORTED_MODULE_5__app_component__["a" /* MyApp */],
+                __WEBPACK_IMPORTED_MODULE_9__pages_splash_splash__["a" /* SplashPage */],
+                __WEBPACK_IMPORTED_MODULE_10__pages_login_login__["a" /* LoginPage */],
+                __WEBPACK_IMPORTED_MODULE_11__pages_signup_signup__["a" /* SignupPage */],
+                __WEBPACK_IMPORTED_MODULE_12__pages_category_category__["a" /* CategoryPage */],
+                __WEBPACK_IMPORTED_MODULE_13__pages_profile_profile__["a" /* ProfilePage */],
+                __WEBPACK_IMPORTED_MODULE_14__pages_upload_image_upload_image__["a" /* UploadImagePage */],
+                __WEBPACK_IMPORTED_MODULE_15__pages_view_view__["a" /* ViewPage */],
+                __WEBPACK_IMPORTED_MODULE_16__pages_edit_profile_edit_profile__["a" /* EditProfilePage */],
+                __WEBPACK_IMPORTED_MODULE_17__pages_pop_over_profile_pop_over_profile__["a" /* PopOverProfilePage */],
+                __WEBPACK_IMPORTED_MODULE_20__pages_forgot_password_forgot_password__["a" /* ForgotPasswordPage */],
+                __WEBPACK_IMPORTED_MODULE_21__pages_eula_eula__["a" /* EulaPage */]
+            ],
+            imports: [
+                __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */], __WEBPACK_IMPORTED_MODULE_8__angular_common_http__["a" /* HttpClientModule */],
+                __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["l" /* IonicModule */].forRoot(__WEBPACK_IMPORTED_MODULE_5__app_component__["a" /* MyApp */], {}, {
+                    links: [
+                        { loadChildren: '../pages/category/category.module#CategoryPageModule', name: 'CategoryPage', segment: 'category', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/edit-profile/edit-profile.module#EditProfilePageModule', name: 'EditProfilePage', segment: 'edit-profile', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/eula/eula.module#EulaPageModule', name: 'EulaPage', segment: 'eula', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/forgot-password/forgot-password.module#ForgotPasswordPageModule', name: 'ForgotPasswordPage', segment: 'forgot-password', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/login/login.module#LoginPageModule', name: 'LoginPage', segment: 'login', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/pop-over-profile/pop-over-profile.module#PopOverProfilePageModule', name: 'PopOverProfilePage', segment: 'pop-over-profile', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/profile/profile.module#ProfilePageModule', name: 'ProfilePage', segment: 'profile', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/signup/signup.module#SignupPageModule', name: 'SignupPage', segment: 'signup', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/splash/splash.module#SplashPageModule', name: 'SplashPage', segment: 'splash', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/upload-image/upload-image.module#UploadImagePageModule', name: 'UploadImagePage', segment: 'upload-image', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/uploaded/uploaded.module#UploadedPageModule', name: 'UploadedPage', segment: 'uploaded', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/view/view.module#ViewPageModule', name: 'ViewPage', segment: 'view', priority: 'low', defaultHistory: [] }
+                    ]
+                }),
+                __WEBPACK_IMPORTED_MODULE_6_ionic_img_viewer__["a" /* IonicImageViewerModule */]
+            ],
+            bootstrap: [__WEBPACK_IMPORTED_MODULE_2_ionic_angular__["j" /* IonicApp */]],
+            entryComponents: [
+                __WEBPACK_IMPORTED_MODULE_5__app_component__["a" /* MyApp */],
+                __WEBPACK_IMPORTED_MODULE_9__pages_splash_splash__["a" /* SplashPage */],
+                __WEBPACK_IMPORTED_MODULE_10__pages_login_login__["a" /* LoginPage */],
+                __WEBPACK_IMPORTED_MODULE_11__pages_signup_signup__["a" /* SignupPage */],
+                __WEBPACK_IMPORTED_MODULE_12__pages_category_category__["a" /* CategoryPage */],
+                __WEBPACK_IMPORTED_MODULE_13__pages_profile_profile__["a" /* ProfilePage */],
+                __WEBPACK_IMPORTED_MODULE_14__pages_upload_image_upload_image__["a" /* UploadImagePage */],
+                __WEBPACK_IMPORTED_MODULE_15__pages_view_view__["a" /* ViewPage */],
+                __WEBPACK_IMPORTED_MODULE_16__pages_edit_profile_edit_profile__["a" /* EditProfilePage */],
+                __WEBPACK_IMPORTED_MODULE_17__pages_pop_over_profile_pop_over_profile__["a" /* PopOverProfilePage */],
+                __WEBPACK_IMPORTED_MODULE_20__pages_forgot_password_forgot_password__["a" /* ForgotPasswordPage */],
+                __WEBPACK_IMPORTED_MODULE_21__pages_eula_eula__["a" /* EulaPage */]
+            ],
+            providers: [
+                __WEBPACK_IMPORTED_MODULE_3__ionic_native_status_bar__["a" /* StatusBar */],
+                __WEBPACK_IMPORTED_MODULE_7__ionic_native_splash_screen__["a" /* SplashScreen */],
+                { provide: __WEBPACK_IMPORTED_MODULE_1__angular_core__["u" /* ErrorHandler */], useClass: __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["k" /* IonicErrorHandler */] },
+                __WEBPACK_IMPORTED_MODULE_4__providers_streetart_database_streetart_database__["a" /* StreetartzProvider */], __WEBPACK_IMPORTED_MODULE_18__ionic_native_email_composer__["a" /* EmailComposer */]
+            ]
+        })
+    ], AppModule);
+    return AppModule;
+}());
+
+//# sourceMappingURL=app.module.js.map
+
+/***/ }),
+
+/***/ 428:
+/***/ (function(module, exports, __webpack_require__) {
+
+var map = {
+	"./af": 200,
+	"./af.js": 200,
+	"./ar": 201,
+	"./ar-dz": 202,
+	"./ar-dz.js": 202,
+	"./ar-kw": 203,
+	"./ar-kw.js": 203,
+	"./ar-ly": 204,
+	"./ar-ly.js": 204,
+	"./ar-ma": 205,
+	"./ar-ma.js": 205,
+	"./ar-sa": 206,
+	"./ar-sa.js": 206,
+	"./ar-tn": 207,
+	"./ar-tn.js": 207,
+	"./ar.js": 201,
+	"./az": 208,
+	"./az.js": 208,
+	"./be": 209,
+	"./be.js": 209,
+	"./bg": 210,
+	"./bg.js": 210,
+	"./bm": 211,
+	"./bm.js": 211,
+	"./bn": 212,
+	"./bn.js": 212,
+	"./bo": 213,
+	"./bo.js": 213,
+	"./br": 214,
+	"./br.js": 214,
+	"./bs": 215,
+	"./bs.js": 215,
+	"./ca": 216,
+	"./ca.js": 216,
+	"./cs": 217,
+	"./cs.js": 217,
+	"./cv": 218,
+	"./cv.js": 218,
+	"./cy": 219,
+	"./cy.js": 219,
+	"./da": 220,
+	"./da.js": 220,
+	"./de": 221,
+	"./de-at": 222,
+	"./de-at.js": 222,
+	"./de-ch": 223,
+	"./de-ch.js": 223,
+	"./de.js": 221,
+	"./dv": 224,
+	"./dv.js": 224,
+	"./el": 225,
+	"./el.js": 225,
+	"./en-au": 226,
+	"./en-au.js": 226,
+	"./en-ca": 227,
+	"./en-ca.js": 227,
+	"./en-gb": 228,
+	"./en-gb.js": 228,
+	"./en-ie": 229,
+	"./en-ie.js": 229,
+	"./en-il": 230,
+	"./en-il.js": 230,
+	"./en-nz": 231,
+	"./en-nz.js": 231,
+	"./eo": 232,
+	"./eo.js": 232,
+	"./es": 233,
+	"./es-do": 234,
+	"./es-do.js": 234,
+	"./es-us": 235,
+	"./es-us.js": 235,
+	"./es.js": 233,
+	"./et": 236,
+	"./et.js": 236,
+	"./eu": 237,
+	"./eu.js": 237,
+	"./fa": 238,
+	"./fa.js": 238,
+	"./fi": 239,
+	"./fi.js": 239,
+	"./fo": 240,
+	"./fo.js": 240,
+	"./fr": 241,
+	"./fr-ca": 242,
+	"./fr-ca.js": 242,
+	"./fr-ch": 243,
+	"./fr-ch.js": 243,
+	"./fr.js": 241,
+	"./fy": 244,
+	"./fy.js": 244,
+	"./gd": 245,
+	"./gd.js": 245,
+	"./gl": 246,
+	"./gl.js": 246,
+	"./gom-latn": 247,
+	"./gom-latn.js": 247,
+	"./gu": 248,
+	"./gu.js": 248,
+	"./he": 249,
+	"./he.js": 249,
+	"./hi": 250,
+	"./hi.js": 250,
+	"./hr": 251,
+	"./hr.js": 251,
+	"./hu": 252,
+	"./hu.js": 252,
+	"./hy-am": 253,
+	"./hy-am.js": 253,
+	"./id": 254,
+	"./id.js": 254,
+	"./is": 255,
+	"./is.js": 255,
+	"./it": 256,
+	"./it.js": 256,
+	"./ja": 257,
+	"./ja.js": 257,
+	"./jv": 258,
+	"./jv.js": 258,
+	"./ka": 259,
+	"./ka.js": 259,
+	"./kk": 260,
+	"./kk.js": 260,
+	"./km": 261,
+	"./km.js": 261,
+	"./kn": 262,
+	"./kn.js": 262,
+	"./ko": 263,
+	"./ko.js": 263,
+	"./ky": 264,
+	"./ky.js": 264,
+	"./lb": 265,
+	"./lb.js": 265,
+	"./lo": 266,
+	"./lo.js": 266,
+	"./lt": 267,
+	"./lt.js": 267,
+	"./lv": 268,
+	"./lv.js": 268,
+	"./me": 269,
+	"./me.js": 269,
+	"./mi": 270,
+	"./mi.js": 270,
+	"./mk": 271,
+	"./mk.js": 271,
+	"./ml": 272,
+	"./ml.js": 272,
+	"./mn": 273,
+	"./mn.js": 273,
+	"./mr": 274,
+	"./mr.js": 274,
+	"./ms": 275,
+	"./ms-my": 276,
+	"./ms-my.js": 276,
+	"./ms.js": 275,
+	"./mt": 277,
+	"./mt.js": 277,
+	"./my": 278,
+	"./my.js": 278,
+	"./nb": 279,
+	"./nb.js": 279,
+	"./ne": 280,
+	"./ne.js": 280,
+	"./nl": 281,
+	"./nl-be": 282,
+	"./nl-be.js": 282,
+	"./nl.js": 281,
+	"./nn": 283,
+	"./nn.js": 283,
+	"./pa-in": 284,
+	"./pa-in.js": 284,
+	"./pl": 285,
+	"./pl.js": 285,
+	"./pt": 286,
+	"./pt-br": 287,
+	"./pt-br.js": 287,
+	"./pt.js": 286,
+	"./ro": 288,
+	"./ro.js": 288,
+	"./ru": 289,
+	"./ru.js": 289,
+	"./sd": 290,
+	"./sd.js": 290,
+	"./se": 291,
+	"./se.js": 291,
+	"./si": 292,
+	"./si.js": 292,
+	"./sk": 293,
+	"./sk.js": 293,
+	"./sl": 294,
+	"./sl.js": 294,
+	"./sq": 295,
+	"./sq.js": 295,
+	"./sr": 296,
+	"./sr-cyrl": 297,
+	"./sr-cyrl.js": 297,
+	"./sr.js": 296,
+	"./ss": 298,
+	"./ss.js": 298,
+	"./sv": 299,
+	"./sv.js": 299,
+	"./sw": 300,
+	"./sw.js": 300,
+	"./ta": 301,
+	"./ta.js": 301,
+	"./te": 302,
+	"./te.js": 302,
+	"./tet": 303,
+	"./tet.js": 303,
+	"./tg": 304,
+	"./tg.js": 304,
+	"./th": 305,
+	"./th.js": 305,
+	"./tl-ph": 306,
+	"./tl-ph.js": 306,
+	"./tlh": 307,
+	"./tlh.js": 307,
+	"./tr": 308,
+	"./tr.js": 308,
+	"./tzl": 309,
+	"./tzl.js": 309,
+	"./tzm": 310,
+	"./tzm-latn": 311,
+	"./tzm-latn.js": 311,
+	"./tzm.js": 310,
+	"./ug-cn": 312,
+	"./ug-cn.js": 312,
+	"./uk": 313,
+	"./uk.js": 313,
+	"./ur": 314,
+	"./ur.js": 314,
+	"./uz": 315,
+	"./uz-latn": 316,
+	"./uz-latn.js": 316,
+	"./uz.js": 315,
+	"./vi": 317,
+	"./vi.js": 317,
+	"./x-pseudo": 318,
+	"./x-pseudo.js": 318,
+	"./yo": 319,
+	"./yo.js": 319,
+	"./zh-cn": 320,
+	"./zh-cn.js": 320,
+	"./zh-hk": 321,
+	"./zh-hk.js": 321,
+	"./zh-tw": 322,
+	"./zh-tw.js": 322
+};
+function webpackContext(req) {
+	return __webpack_require__(webpackContextResolve(req));
+};
+function webpackContextResolve(req) {
+	var id = map[req];
+	if(!(id + 1)) // check for number or string
+		throw new Error("Cannot find module '" + req + "'.");
+	return id;
+};
+webpackContext.keys = function webpackContextKeys() {
+	return Object.keys(map);
+};
+webpackContext.resolve = webpackContextResolve;
+module.exports = webpackContext;
+webpackContext.id = 428;
+
+/***/ }),
+
+/***/ 452:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MyApp; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__ = __webpack_require__(365);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(366);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_streetart_database_streetart_database__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_splash_splash__ = __webpack_require__(144);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_category_category__ = __webpack_require__(46);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+
+var MyApp = /** @class */ (function () {
+    function MyApp(platform, statusBar, splashScreen, art) {
+        var _this = this;
+        this.platform = platform;
+        this.statusBar = statusBar;
+        this.splashScreen = splashScreen;
+        this.art = art;
+        art.checkstate().then(function (data) {
+            if (data == 1) {
+                _this.rootPage = __WEBPACK_IMPORTED_MODULE_6__pages_category_category__["a" /* CategoryPage */];
+            }
+            else {
+                _this.rootPage = __WEBPACK_IMPORTED_MODULE_5__pages_splash_splash__["a" /* SplashPage */];
+            }
+        });
+        this.initializeApp();
+        // used for an example of ngFor and navigation
+    }
+    ;
+    MyApp.prototype.initializeApp = function () {
+        var _this = this;
+        this.platform.ready().then(function () {
+            // Okay, so the platform is ready and our plugins are available.
+            // Here you can do any higher level native things you might need.
+            _this.statusBar.styleDefault();
+            _this.splashScreen.hide();
+        });
+    };
+    MyApp.prototype.openPage = function (page) {
+        // Reset the content nav to have just this page
+        // we wouldn't want the back button to show in this scenario
+        this.nav.setRoot(page.component);
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["p" /* Nav */]),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["p" /* Nav */])
+    ], MyApp.prototype, "nav", void 0);
+    MyApp = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({template:/*ion-inline-start:"C:\Users\Janet Zango\groupApp\TheAntz\src\app\app.html"*/'<ion-nav [root]="rootPage"></ion-nav>\n\n'/*ion-inline-end:"C:\Users\Janet Zango\groupApp\TheAntz\src\app\app.html"*/
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["t" /* Platform */], __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__["a" /* StatusBar */], __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__["a" /* SplashScreen */], __WEBPACK_IMPORTED_MODULE_4__providers_streetart_database_streetart_database__["a" /* StreetartzProvider */]])
+    ], MyApp);
+    return MyApp;
+}());
+
+//# sourceMappingURL=app.component.js.map
+
+/***/ }),
+
+/***/ 46:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CategoryPage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_streetart_database_streetart_database__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__profile_profile__ = __webpack_require__(57);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__view_view__ = __webpack_require__(143);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+/**
+ * Generated class for the CategoryPage page.
+ *
+ * See https://ionicframework.com/docs/components/#navigation for more info on
+ * Ionic pages and navigation.
+ */
+var CategoryPage = /** @class */ (function () {
+    function CategoryPage(navCtrl, navParams, art, alertCtrl, loadingCtrl) {
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+        this.art = art;
+        this.alertCtrl = alertCtrl;
+        this.loadingCtrl = loadingCtrl;
+        this.obj = {};
+        this.arr2 = [];
+        this.list = [];
+        this.retreivePics();
+    }
+    CategoryPage.prototype.ionViewDidLoad = function () {
+    };
+    CategoryPage.prototype.GoToProfilePage = function () {
+        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_3__profile_profile__["a" /* ProfilePage */]);
+    };
+    CategoryPage.prototype.typeOfArt = function () {
+        var _this = this;
+        this.arr2.length = 0;
+        this.art.selectCategory(this.category).then(function (data) {
+            var keys = Object.keys(data);
+            for (var i = 0; i < keys.length; i++) {
+                var k = keys[i];
+                if (_this.category == data[k].category) {
+                    var obj = {
+                        category: data[k].category,
+                        downloadurl: data[k].downloadurl,
+                        name: data[k].name,
+                        key: k,
+                        url: data[k].url,
+                        username: data[k].username,
+                        email: data[k].email,
+                        location: data[k].location,
+                        price: data[k].price,
+                    };
+                    _this.arr2.push(obj);
+                }
+            }
+            if (_this.category == 'All') {
+                _this.retreivePics();
+            }
+        });
+    };
+    CategoryPage.prototype.retreivePics = function () {
+        var _this = this;
+        this.arr2.length = 0;
+        this.art.viewPicMain(this.name, this.username).then(function (data) {
+            console.log(data);
+            _this.arr2 = data;
+            console.log(_this.arr2);
+        });
+    };
+    CategoryPage.prototype.pushArtistDetails = function (pic, name, key, url, comments, email, username, description, location, price, likes) {
+        var obj = {
+            name: name,
+            pic: pic,
+            key: key,
+            url: url,
+            comments: comments,
+            email: email,
+            username: username,
+            description: description,
+            location: location,
+            price: price,
+            likes: likes
+        };
+        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_4__view_view__["a" /* ViewPage */], { obj: obj });
+    };
+    CategoryPage = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'page-category',template:/*ion-inline-start:"C:\Users\Janet Zango\groupApp\TheAntz\src\pages\category\category.html"*/'<ion-header #head>\n\n  <ion-navbar color="secondary">\n\n    <div class="head">\n\n      <ion-item class="CatBar" color="secondary">\n\n        <ion-label>Select</ion-label>\n\n        <ion-select [(ngModel)]="category" (ionChange)="typeOfArt()">\n\n            <ion-option value="All">All</ion-option>\n\n          <ion-option value="Photography">Photography</ion-option>\n\n          <ion-option value="Sculpting">Sculpting</ion-option>\n\n          <ion-option value="Painting">Painting</ion-option>\n\n          <ion-option value="Fashion">Fashion/Clothing</ion-option>\n\n          <ion-option value="Drawing">Drawing</ion-option>\n\n          <ion-option value="General">General</ion-option>\n\n        </ion-select>\n\n      </ion-item>\n\n    </div>\n\n    <ion-buttons end>\n\n      <button outline round class="person" ion-button color="primary" icon-only (click)="GoToProfilePage()">\n\n        <ion-icon name="person"></ion-icon>\n\n      </button>\n\n    </ion-buttons>\n\n  </ion-navbar>\n\n</ion-header>\n\n<ion-content class="card-background-page" on-scroll="getScrollPosition()">\n\n\n\n    <div class="scrollContent">\n\n      \n\n        <ion-grid no-padding>\n\n    <ion-row no-padding>\n\n      <ion-col class="col" col-6 *ngFor="let a of arr2" (click)="pushArtistDetails(a.downloadurl,a.username,a.key,a.url,a.comments,a.email,a.name,a.description,a.location,a.price,a.likes)">\n\n        <img class="theImg" [src]="a.downloadurl">\n\n        <br>\n\n        <div class="detail">\n\n          <ion-item class="details" no-padding no-lines>\n\n            <ion-avatar item-start>\n\n              <img class="dp" src="{{a.url}}" alt="DP">\n\n            </ion-avatar>\n\n            <p class="Caps-Lock">{{a.name}}</p>\n\n            <p class="Caps-Lock" id="User"> by {{a.username}}</p>\n\n          </ion-item>\n\n        </div>\n\n      </ion-col>\n\n    </ion-row>\n\n\n\n    <hr>\n\n  </ion-grid>\n\n    </div>\n\n</ion-content>'/*ion-inline-end:"C:\Users\Janet Zango\groupApp\TheAntz\src\pages\category\category.html"*/,
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["q" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["r" /* NavParams */], __WEBPACK_IMPORTED_MODULE_2__providers_streetart_database_streetart_database__["a" /* StreetartzProvider */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["n" /* LoadingController */]])
+    ], CategoryPage);
+    return CategoryPage;
+}());
+
+//# sourceMappingURL=category.js.map
+
+/***/ }),
+
+/***/ 49:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LoginPage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_streetart_database_streetart_database__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__category_category__ = __webpack_require__(46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__forgot_password_forgot_password__ = __webpack_require__(140);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__eula_eula__ = __webpack_require__(141);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+
+
+/**
+ * Generated class for the LoginPage page.
+ *
+ * See https://ionicframework.com/docs/components/#navigation for more info on
+ * Ionic pages and navigation.
+ */
+var LoginPage = /** @class */ (function () {
+    function LoginPage(alertCtrl, navCtrl, navParams, modalCtrl, viewCtrl, art, loadingCtrl, toastCtrl) {
+        this.alertCtrl = alertCtrl;
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+        this.modalCtrl = modalCtrl;
+        this.viewCtrl = viewCtrl;
+        this.art = art;
+        this.loadingCtrl = loadingCtrl;
+        this.toastCtrl = toastCtrl;
+        this.obj = {};
+    }
+    LoginPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad LoginPage');
+    };
+    LoginPage.prototype.signup = function () {
+        this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_5__eula_eula__["a" /* EulaPage */]);
+    };
+    LoginPage.prototype.login = function (obj) {
+        var _this = this;
+        if (this.obj.email == null || this.obj.password == undefined) {
+            var alert_1 = this.alertCtrl.create({
+                subTitle: 'Please enter your details',
+                buttons: ['OK']
+            });
+            alert_1.present();
+        }
+        else {
+            this.art.login(this.obj.email, this.obj.password).then(function () {
+                _this.presentLoading();
+                _this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_3__category_category__["a" /* CategoryPage */]);
+                _this.presentLoading1();
+            }, function (error) {
+                console.log(error.message);
+            });
+        }
+    };
+    LoginPage.prototype.presentLoading = function () {
+        var toast = this.toastCtrl.create({
+            message: this.obj.email + 'You have logged in',
+            duration: 2000
+        });
+        toast.present();
+    };
+    LoginPage.prototype.presentLoading1 = function () {
+        var loader = this.loadingCtrl.create({
+            content: "loading....",
+            duration: 8000
+        });
+        loader.present();
+    };
+    LoginPage.prototype.forgotpassword = function () {
+        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_4__forgot_password_forgot_password__["a" /* ForgotPasswordPage */]);
+    };
+    LoginPage = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'page-login',template:/*ion-inline-start:"C:\Users\Janet Zango\groupApp\TheAntz\src\pages\login\login.html"*/'<ion-header></ion-header>\n\n<ion-content class="container">\n\n    <div class="everything">\n\n      <div class="logo">\n\n        <img src="../../assets/imgs/theLogo/ANTZ Logo.png" alt="">\n\n      </div>\n\n      <div class="items" padding>\n\n        <ion-list no-lines>\n\n          <div class="textFields">\n\n            <ion-input type="email" placeholder="Email" value="" [(ngModel)]="obj.email"></ion-input>\n\n            <ion-input type="password" placeholder="Password" [(ngModel)]="obj.password"></ion-input>\n\n          </div>\n\n        </ion-list>\n\n        <button ion-button block id="button" color="primary" (click)="login()">\n\n          Sign In\n\n        </button>\n\n        <br><br>\n\n        <p class="forgot" (click)="forgotpassword()">Forgot password?</p>\n\n      </div>\n\n      <p>Don\'t have an account?\n\n        <b (click)="signup()" class="forgot">Sign Up</b>\n\n      </p>\n\n    </div>\n\n  </ion-content>'/*ion-inline-end:"C:\Users\Janet Zango\groupApp\TheAntz\src\pages\login\login.html"*/,
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["q" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["r" /* NavParams */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["o" /* ModalController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["x" /* ViewController */], __WEBPACK_IMPORTED_MODULE_2__providers_streetart_database_streetart_database__["a" /* StreetartzProvider */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["n" /* LoadingController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["v" /* ToastController */]])
+    ], LoginPage);
+    return LoginPage;
+}());
+
+//# sourceMappingURL=login.js.map
+
+/***/ }),
+
+/***/ 57:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ProfilePage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_streetart_database_streetart_database__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__upload_image_upload_image__ = __webpack_require__(138);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pop_over_profile_pop_over_profile__ = __webpack_require__(139);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__edit_profile_edit_profile__ = __webpack_require__(73);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_firebase__ = __webpack_require__(198);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_firebase___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_firebase__);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * Generated class for the ProfilePage page.
+ *
+ * See https://ionicframework.com/docs/components/#navigation for more info on
+ * Ionic pages and navigation.
+ */
+var ProfilePage = /** @class */ (function () {
+    function ProfilePage(navCtrl, navParams, art, modalCtrl, popoverCtrl, loadingCtrl, toastCtrl, alertCtrl) {
+        // this.art.profile().then((data) => {
+        //   this.arr.length = 0
+        //   var keys: any = Object.keys(data);
+        //   for (var i = 0; i < keys.length; i++) {
+        //     var k = keys[i];
+        //     let obj = {
+        //       downloadurl: data[k].downloadurl,
+        //       name: data[k].name,
+        //       key: k,
+        //       email: data[k].email,
+        //       bio: data[k].bio,
+        //       contact: data[k].contact
+        //     }
+        //     this.arr.push(obj)
+        //     console.log(this.arr);
+        var _this = this;
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+        this.art = art;
+        this.modalCtrl = modalCtrl;
+        this.popoverCtrl = popoverCtrl;
+        this.loadingCtrl = loadingCtrl;
+        this.toastCtrl = toastCtrl;
+        this.alertCtrl = alertCtrl;
+        this.list = [];
+        this.arr = [];
+        //   }
+        // })
+        // this.retreivePics1();
+        // this.retreivePics();
+        var userID = __WEBPACK_IMPORTED_MODULE_6_firebase___default.a.auth().currentUser;
+        __WEBPACK_IMPORTED_MODULE_6_firebase___default.a.database().ref("profiles/" + userID.uid).on('value', function (data) {
+            _this.arr.length = 0;
+            var details = data.val();
+            _this.arr.push(details);
+            console.log(_this.arr);
+        });
+    }
+    ProfilePage.prototype.ionViewDidLoad = function () {
+    };
+    ProfilePage.prototype.ngOnInit = function () {
+    };
+    ProfilePage.prototype.EditProfile = function () {
+        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_5__edit_profile_edit_profile__["a" /* EditProfilePage */]);
+    };
+    ProfilePage.prototype.upload = function () {
+        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_3__upload_image_upload_image__["a" /* UploadImagePage */]);
+    };
+    ProfilePage.prototype.presentPopover = function () {
+        var popover = this.popoverCtrl.create(__WEBPACK_IMPORTED_MODULE_4__pop_over_profile_pop_over_profile__["a" /* PopOverProfilePage */]);
+        popover.present();
+    };
+    ProfilePage.prototype.GoBackToCategory = function () {
+        this.navCtrl.pop();
+    };
+    ProfilePage.prototype.getUid = function () {
+        var _this = this;
+        this.art.getUserID().then(function (data) {
+            _this.uid = data;
+        });
+    };
+    ProfilePage.prototype.retreivePics = function () {
+        var _this = this;
+        this.list.length = 0;
+        this.getUid();
+        this.art.viewPicGallery().then(function (data) {
+            var keys = Object.keys(data);
+            for (var i = 0; i < keys.length; i++) {
+                var k = keys[i];
+                if (_this.uid == data[k].uid) {
+                    var obj_1 = {
+                        uid: data[k].uid,
+                        category: data[k].category,
+                        downloadurl: data[k].downloadurl,
+                        location: data[k].location,
+                        price: data[k].price,
+                        name: data[k].name,
+                        key: k
+                    };
+                    _this.list.push(obj_1);
+                }
+            }
+        }, function (Error) {
+            console.log(Error);
+        });
+    };
+    ProfilePage.prototype.getUid1 = function () {
+        var _this = this;
+        this.art.getUserID().then(function (data) {
+            _this.uid1 = data;
+        });
+    };
+    ProfilePage.prototype.retreivePics1 = function () {
+        var _this = this;
+        this.arr.length = 0;
+        this.getUid1();
+        this.art.viewPicGallery1().then(function (data) {
+            var keys = Object.keys(data);
+            for (var i = 0; i < keys.length; i++) {
+                var k = keys[i];
+                if (_this.uid == data[k].uid) {
+                    var objt = {
+                        downloadurl: data[k].downloadurl
+                    };
+                    _this.arr.push(objt);
+                }
+            }
+        }, function (Error) {
+            console.log(Error);
+        });
+    };
+    ProfilePage.prototype.nextpage = function () {
+        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_5__edit_profile_edit_profile__["a" /* EditProfilePage */]);
+    };
+    ProfilePage.prototype.dismissPage = function () {
+        this.navCtrl.pop();
+    };
+    ProfilePage.prototype.removeImage = function (key) {
+        var _this = this;
+        var confirm = this.alertCtrl.create({
+            title: 'Confirm',
+            message: 'Are you sure you want to delete image?',
+            buttons: [
+                {
+                    text: 'Ok',
+                    handler: function () {
+                        _this.art.RemoveUploadedPicture(key);
+                        _this.retreivePics();
+                    }
+                },
+                {
+                    text: 'Cancel',
+                    handler: function () {
+                    }
+                }
+            ]
+        });
+        confirm.present();
+    };
+    ProfilePage = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'page-profile',template:/*ion-inline-start:"C:\Users\Janet Zango\groupApp\TheAntz\src\pages\profile\profile.html"*/'<ion-header transparent>\n\n  <ion-toolbar color="secondary">\n\n    <button ion-button clear color="light" icon-only (click)="GoBackToCategory()">\n\n      <ion-icon name="arrow-back"></ion-icon>\n\n    </button>\n\n    <ion-buttons end>\n\n      <button ion-button class="threeDots" (click)="presentPopover($event)">\n\n        <ion-icon name="more"></ion-icon>\n\n      </button>\n\n    </ion-buttons>\n\n    <ion-title></ion-title>\n\n  </ion-toolbar>\n\n</ion-header>\n\n\n\n<ion-content #popoverContent class="home">\n\n  <ion-fab bottom right>\n\n    <button ion-button mini icon-only color="primary" class="btnIcon" (click)="upload()">\n\n      <ion-icon name="add"></ion-icon>\n\n    </button>\n\n  </ion-fab>\n\n  <div class="head" id="start" #head>\n\n    <div id="pic" align="center">\n\n      <div class="photo">\n\n        <div class="dp">\n\n          <ion-grid *ngFor="let item of arr">\n\n            <ion-row>\n\n              <ion-col col-5 class="displayPhoto">\n\n                <div>\n\n                  <img class="m" [src]="item.downloadurl" imageViewer>\n\n                </div>\n\n              </ion-col>\n\n              <ion-col>\n\n                <div class="personal-details">\n\n                  <p class="Caps-Lock">\n\n                    <b class="artist-name">{{item.name}}</b>\n\n                  </p>\n\n                  <p class="lowerCase">{{item.email}}</p>\n\n                  <p>{{item.contact}}</p>\n\n                </div>\n\n              </ion-col>\n\n            </ion-row>\n\n            <ion-row>\n\n              <ion-col>\n\n                <div class="bio">\n\n                  {{item.bio}}\n\n                </div>\n\n              </ion-col>\n\n            </ion-row>\n\n          </ion-grid>\n\n        </div>\n\n      </div>\n\n    </div>\n\n \n\n  <div class="list">\n\n  </div>\n\n  </div>\n\n  <div class="split">\n\n    <b class="uploads" id="theHead">My Artwork</b>\n\n  </div>\n\n  <div class="contents">\n\n    <ion-grid class="uploads">\n\n      <ion-row class="gal">\n\n        <ion-col *ngFor="let a of list" col-6>\n\n          <div class="remover" (click)="removeImage(a.key)">\n\n            <ion-icon ios="ios-trash" md="md-trash"></ion-icon>\n\n          </div>\n\n          <img class="image" [src]="a.downloadurl" imageViewer alt="">\n\n        </ion-col>\n\n      </ion-row>\n\n    </ion-grid>\n\n  </div>\n\n</ion-content>'/*ion-inline-end:"C:\Users\Janet Zango\groupApp\TheAntz\src\pages\profile\profile.html"*/,
+        }),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["q" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["q" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["r" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["r" /* NavParams */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__providers_streetart_database_streetart_database__["a" /* StreetartzProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__providers_streetart_database_streetart_database__["a" /* StreetartzProvider */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["o" /* ModalController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["o" /* ModalController */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["u" /* PopoverController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["u" /* PopoverController */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["n" /* LoadingController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["n" /* LoadingController */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["v" /* ToastController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["v" /* ToastController */]) === "function" && _g || Object, typeof (_h = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */]) === "function" && _h || Object])
+    ], ProfilePage);
+    return ProfilePage;
+    var _a, _b, _c, _d, _e, _f, _g, _h;
+}());
+
+//# sourceMappingURL=profile.js.map
+
+/***/ }),
+
+/***/ 73:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return EditProfilePage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_streetart_database_streetart_database__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__profile_profile__ = __webpack_require__(57);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+/**
+ * Generated class for the EditProfilePage page.
+ *
+ * See https://ionicframework.com/docs/components/#navigation for more info on
+ * Ionic pages and navigation.
+ */
+var EditProfilePage = /** @class */ (function () {
+    function EditProfilePage(navCtrl, navParams, art, loadingCtrl, toastCtrl) {
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+        this.art = art;
+        this.loadingCtrl = loadingCtrl;
+        this.toastCtrl = toastCtrl;
+        this.arr = [];
+    }
+    EditProfilePage.prototype.GoToProfile = function () {
+        this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_3__profile_profile__["a" /* ProfilePage */]);
+    };
+    EditProfilePage.prototype.ionViewDidLoad = function () {
+        this.retreivePics1();
+    };
+    EditProfilePage.prototype.ngOnInit = function () {
+        var _this = this;
+        this.art.retrieve().on('value', function (data) {
+            var details = data.val();
+            _this.name = details.name;
+            _this.email = details.email;
+            _this.contact = details.contact;
+            _this.downloadurl = details.downloadurl;
+            _this.bio = details.bio;
+            console.log(details);
+        });
+    };
+    EditProfilePage.prototype.insertpic = function (event) {
+        var _this = this;
+        if (event.target.files && event.target.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (event) {
+                _this.downloadurl = event.target.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+            console.log(reader.onload);
+        }
+    };
+    EditProfilePage.prototype.uploadPicture = function () {
+        var _this = this;
+        this.arr.length = 0;
+        this.art.uploadProfilePic(this.downloadurl, this.name).then(function (data) {
+            console.log('added to db');
+            _this.art.update(_this.name, _this.email, _this.contact, _this.bio, _this.downloadurl).then(function (data) {
+                _this.arr.push(data);
+                console.log(data);
+            });
+            // this.navCtrl.setRoot(ProfilePage);
+        }, function (Error) {
+            console.log(Error);
+        });
+    };
+    EditProfilePage.prototype.getUid1 = function () {
+        var _this = this;
+        this.art.getUserID().then(function (data) {
+            _this.uid1 = data;
+        });
+    };
+    EditProfilePage.prototype.retreivePics1 = function () {
+        var _this = this;
+        this.arr.length = 0;
+        this.getUid1();
+        this.art.viewPicGallery1().then(function (data) {
+            var loader = _this.loadingCtrl.create({
+                content: "please wait...",
+                duration: 6000
+            });
+            var keys = Object.keys(data);
+            for (var i = 0; i < keys.length; i++) {
+                var k = keys[i];
+                if (_this.uid == data[k].uid) {
+                    var objt = {
+                        downloadurl: data[k].downloadurl
+                    };
+                    _this.arr.push(objt);
+                }
+            }
+            loader.dismiss();
+        }, function (Error) {
+            console.log(Error);
+        });
+    };
+    EditProfilePage = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'page-edit-profile',template:/*ion-inline-start:"C:\Users\Janet Zango\groupApp\TheAntz\src\pages\edit-profile\edit-profile.html"*/'<ion-header>\n\n  <ion-toolbar color="secondary">\n\n    <ion-title>Edit Profile</ion-title>\n\n    <ion-buttons left>\n\n      <button ion-button icon-only (click)="GoToProfile()">\n\n        <ion-icon name="arrow-back" id="mark"></ion-icon>\n\n      </button>\n\n    </ion-buttons>\n\n    <ion-buttons end>\n\n      <button ion-button color="primary" icon-only (click)="uploadPicture()">\n\n        <ion-icon name="checkmark" id="mark"></ion-icon>\n\n      </button>\n\n    </ion-buttons>\n\n  </ion-toolbar>\n\n</ion-header>\n\n<ion-content padding>\n\n  <br>\n\n  <div class="preview">\n\n    <div class="inp">\n\n      <label for="file" id="cam">\n\n        <ion-icon ios="ios-create" md="md-create"></ion-icon>\n\n      </label>\n\n      <input id="file" type="file" accept="image/*" (change)="insertpic($event)">\n\n    </div>\n\n    <img [src]="downloadurl">\n\n  </div>\n\n  <br>\n\n\n\n  <ion-item no-lines class="item">\n\n    <ion-label>\n\n      <ion-icon name="person"></ion-icon>\n\n    </ion-label>\n\n    <ion-input type="text" [value]="name" [(ngModel)]="name" placeholder="enter name"></ion-input>\n\n  </ion-item>\n\n  <br>\n\n  <ion-item class="item">\n\n    <ion-label>\n\n      <ion-icon name="mail"></ion-icon>\n\n    </ion-label>\n\n    <ion-input type="email" [value]="email" [(ngModel)]="email" placeholder="Email"></ion-input>\n\n  </ion-item>\n\n  <br>\n\n  <ion-item class="item">\n\n    <ion-label>\n\n      <ion-icon name="call"></ion-icon>\n\n    </ion-label>\n\n    <ion-input type="number" [value]="contact" [(ngModel)]="contact" max="10" placeholder="Mobile"></ion-input>\n\n  </ion-item>\n\n  <br>\n\n  <ion-textarea id="areaText" type="text" [value]="bio" [(ngModel)]="bio" placeholder="Bio"></ion-textarea>\n\n\n\n</ion-content>'/*ion-inline-end:"C:\Users\Janet Zango\groupApp\TheAntz\src\pages\edit-profile\edit-profile.html"*/,
+        }),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["q" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["q" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["r" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["r" /* NavParams */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__providers_streetart_database_streetart_database__["a" /* StreetartzProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__providers_streetart_database_streetart_database__["a" /* StreetartzProvider */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["n" /* LoadingController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["n" /* LoadingController */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["v" /* ToastController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["v" /* ToastController */]) === "function" && _e || Object])
+    ], EditProfilePage);
+    return EditProfilePage;
+    var _a, _b, _c, _d, _e;
+}());
+
+//# sourceMappingURL=edit-profile.js.map
+
+/***/ })
+
+},[386]);
+//# sourceMappingURL=main.js.map

@@ -50,23 +50,26 @@
         </div>
       </div>
     </div>
- 
-  <div class="list">
-  </div>
+    <div class="list">
+    </div>
   </div>
   <div class="split">
     <b class="uploads" id="theHead">My Artwork</b>
   </div>
-  <div class="contents">
-    <ion-grid class="uploads">
-      <ion-row class="gal">
-        <ion-col *ngFor="let a of list" col-6>
-          <div class="remover" (click)="removeImage(a.key)">
-            <ion-icon ios="ios-trash" md="md-trash"></ion-icon>
-          </div>
-          <img class="image" [src]="a.downloadurl" imageViewer alt="">
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+  <div class="contents" *ngIf="list.length == 0 || list.length == undefined">
+    <div class="no-data">
+      <img class="empty1" src="../../assets/empty.png">
+      <p class="emptycontent">There are no uploads yet... click <b> <ion-icon name="add"></ion-icon> </b> to get started.</p>
+    </div>
   </div>
+  <ion-grid class="uploads">
+    <ion-row class="gal">
+      <ion-col *ngFor="let a of list" col-6>
+        <div class="remover" (click)="removeImage(a.key)">
+          <ion-icon ios="ios-trash" md="md-trash"></ion-icon>
+        </div>
+        <img class="image" [src]="a.downloadurl" imageViewer alt="">
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

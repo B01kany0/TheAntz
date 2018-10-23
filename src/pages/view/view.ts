@@ -83,6 +83,21 @@ export class ViewPage implements OnInit {
     this.Retrivecomments();
     this.currentUserId = this.art.returnUID();
   }
+  scroll(event){
+    console.log(event);
+      let backBTN = document.getElementsByClassName('theWidth') as HTMLCollectionOf<HTMLElement>;
+      
+      if(event.scrollTop>60 && event.directionY == "down"){
+        backBTN[0].style.transform = "translateY(-100%)";
+        backBTN[0].style.transition = 1 + "s"
+      }
+      else if(event.directionY == 'up' && event.deltaY < -10){
+        backBTN[0].style.transform="translateY(0%)";
+      }
+    
+    
+  }
+
 
 
   BuyArt() {

@@ -5,9 +5,6 @@ import { StreetartzProvider } from '../../providers/streetart-database/streetart
 import { obj } from '../../app/class';
 import { ToastController } from 'ionic-angular';
 import { CategoryPage } from '../category/category';
-
-import { UploadedPage } from '../uploaded/uploaded';
-
 import { LoadingController } from 'ionic-angular';
 import { EulaPage } from '../eula/eula';
 
@@ -22,67 +19,66 @@ import { EulaPage } from '../eula/eula';
 export class SignupPage {
 
   @ViewChild('input') myInput: ElementRef
-
-  name: string;
-  email: string;
-  password: string;
+  name;
+  email;
+  password;
+  obj = {} as obj;
   constructor(public viewCtrl: ViewController, public navCtrl: NavController, public navParams: NavParams, public art: StreetartzProvider, public toastCtrl: ToastController, public alertCtrl: AlertController, public modalCtrl: ModalController, public loadingCtrl: LoadingController) {
-
   }
   ionViewDidLoad() {
     console.log('ionViewDidLoad SignupPage');
   }
   signUp() {
-    if (this.name == undefined || this.name == null &&
-      this.email == undefined || this.email == null,
-      this.password == undefined || this.password == null) {
+    if (this.name == null || this.name == undefined,
+      this.email == null || this.email == undefined,
+      this.password == null || this.password == undefined
+    ) {
       const alert = this.alertCtrl.create({
-        title: "Oops! ",
-        subTitle: "Please enter your name,email and password to login.",
+        title: "Oh no! ",
+        subTitle: "Please enter your email and password to login.",
         buttons: ['OK']
       });
       alert.present();
-    }
-    else if (this.name == undefined || this.name == null) {
+    } else if (this.password.length < 6) {
       const alert = this.alertCtrl.create({
-        title: "No Name",
-        subTitle: "It looks like you didn't enter your Name.",
+        subTitle: 'Password must be 6 characters or more.',
         buttons: ['OK']
       });
       alert.present();
-    }
-    else if (this.email == undefined || this.email == null) {
-      const alert = this.alertCtrl.create({
-        title: "No Email",
-        subTitle: "It looks like you didn't enter your email address.",
-        buttons: ['OK']
-      });
-      alert.present();
-    }
-    else if (this.password == undefined || this.password == null) {
-      const alert = this.alertCtrl.create({
-        title: "No Password",
-        subTitle: "You have not entered your password. Please enter your password",
-        buttons: ['OK']
-      });
-      alert.present();
-    }
-    //if (this.password.length < 6 ) {
-    //  const alert = this.alertCtrl.create({
-    //    title: "Lacking Password",
-    //    subTitle: "Your password should atleat contain a minimum of 6 characters",
-    //    buttons: ['OK']
-    //  });
-    //  alert.present();
-    //}
-    else {
-      this.art.register(this.email, this.password, this.name).then(() => {
-        this.navCtrl.setRoot(CategoryPage);
-        this.presentLoading();
-        this.presentLoading1();
-      }, (error) => {
-        console.log(error.message);
-      })
+    } else {
+      if (this.password.length < 6) {
+        const alert = this.alertCtrl.create({
+          subTitle: 'Password must be 6 characters or more.',
+          buttons: ['OK']
+        });
+        alert.present();
+      } else {
+        if (this.name == "") {
+          const alert = this.alertCtrl.create({
+            subTitle: 'Please complete your details.',
+            buttons: ['OK']
+          });
+          alert.present()
+          return  
+        }
+        if (this.email == "") {
+          const alert = this.alertCtrl.create({
+            subTitle: 'Please complete your details.',
+            buttons: ['OK']
+          });
+          alert.present()
+          return
+        }
+        this.art.register(this.email, this.password, this.name).then(() => {
+          this.presentLoading();
+          this.navCtrl.setRoot(CategoryPage);
+          this.presentLoading1();
+        }, (error) => {
+          console.log(error.message);
+        })
+
+      }
+
     }
   }
   dismiss() {
@@ -102,17 +98,5 @@ export class SignupPage {
     });
     loader.present();
   }
-  onKeyPress(event) {
-    if ((event.keyCode >= 65 && event.keyCode <= 90) || (event.keyCode >= 97 && event.keyCode <= 122) || event.keyCode == 32 || event.keyCode == 46) {
-      return true
-    }
-    else {
-      const toast = this.toastCtrl.create({
-        message: event.keyCode - 48 + ' is not allowed as a name',
-        duration: 2000
-      });
-      toast.present();
-      return false;
-    }
-  }
+
 }

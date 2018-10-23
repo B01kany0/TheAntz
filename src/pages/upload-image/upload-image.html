@@ -50,7 +50,7 @@
         <br>
         <ion-input class="theItem" placeholder="Location" type="text" [(ngModel)]="location" maxlength="20" row="4"></ion-input>
         <br>
-        <ion-input class="theItem" placeholder="Price (R)" [(ngModel)]="price" type="number" max="2"></ion-input>
+        <ion-input class="theItem" placeholder="Price (R)" (keypress)="omit_special_char($event)" [(ngModel)]="price" type="number" max="2"></ion-input>
         <br>
         <ion-textarea placeholder="Art Description (max 150)" [(ngModel)]="description" class="theItem" type="text" maxlength="150"
           row="4"></ion-textarea>

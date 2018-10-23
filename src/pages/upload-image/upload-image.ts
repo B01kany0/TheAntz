@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams,ViewController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { StreetartzProvider } from '../../providers/streetart-database/streetart-database';
 import { ProfilePage } from '../profile/profile';
 import { AlertController } from 'ionic-angular';
+import { CategoryPage } from '../category/category';
 /**
  * Generated class for the UploadImagePage page.
  *
@@ -16,67 +17,95 @@ import { AlertController } from 'ionic-angular';
   templateUrl: 'upload-image.html',
 })
 export class UploadImagePage {
-  url='../../assets/default.jpg' ;
+  url = '../../assets/default.jpg';
   name;
   category;
   imageUrl;
-  arr=[];
+  arr = [];
   description;
   location;
   price;
-  constructor(public navCtrl: NavController, public navParams: NavParams,public art: StreetartzProvider,public view :ViewController,public alertCtrl: AlertController) {
+  downloadurl;
+  constructor(public navCtrl: NavController, public navParams: NavParams, public art: StreetartzProvider, public view: ViewController, public alertCtrl: AlertController) {
   }
-  
+
   ionViewDidLoad() {
     console.log('ionViewDidLoad UploadModalPage');
   }
 
-  insertvid(event:any){
-      if (event.target.files && event.target.files[0]) {
-        let reader = new FileReader();
+  insertvid(event: any) {
+    if (event.target.files && event.target.files[0]) {
+      let reader = new FileReader();
 
-        reader.onload = (event: any) => {
-          this.url = event.target.result;
-        }
-        reader.readAsDataURL(event.target.files[0]);
-        console.log(reader.onload);
-      } 
+      reader.onload = (event: any) => {
+        this.url = event.target.result;
+      }
+      reader.readAsDataURL(event.target.files[0]);
+      console.log(reader.onload);
+    }
   }
-
-  uploadPicture(){
-    if(this.category !=null || this.description !=null || this.name !=null || this.location !=null || this.price !=null){
-      this.art.uploadPic(this.url,this.name).then(data =>{
-        this.art.storeToDB(data, this.category,this.name,this.description,this.location,this.price).then(() =>{
-          console.log('added to db');
-          this.navCtrl.setRoot(ProfilePage);
-        },
-       Error =>{
-         console.log(Error)
-       })
-     }, Error =>{
-       console.log(Error )
-     })
-   }
-   else{
-    const confirm = this.alertCtrl.create({
-      message: 'Please enter all details to upload your image',
-      buttons: [
-        {
-          text: 'Ok',
-          handler: () => {
-            console.log('Disagree clicked');
-          }
-        },
-      ]
-    });
-    confirm.present();
-   }
-  
+  omit_special_char(event)
+  {   
+    console.log(event.charCode)
+     var k;  
+     k = event.charCode;  //         k = event.keyCode;  (Both can be used)
+     return((k >= 48 && k <= 57)); 
+  }
+  uploadPicture() {
+    if(this.url !="../../assets/default.jpg"){     
+   
+    if (this.category == undefined || this.category == null,
+      this.name == ""  || this.name == null ,
+      this.description == null || this.description == "",
+      this.location == "" ||this.location == null,
+      this.price == "" || this.price == null) {
+      const confirm = this.alertCtrl.create({
+        title: "Fields Missing",
+        subTitle: "Please make sure that all the fields are filled.",
+        buttons: [
+          {
+            text: 'Ok',
+            handler: () => {
+            }
+          },
+        ]
+      });
+      confirm.present();
+    }
+    else { 
+        this.art.uploadPic(this.url).then(data => {
+          this.art.storeToDB(data, this.category, this.name, this.description, this.location, this.price).then(() => {
+            this.navCtrl.setRoot(ProfilePage);
+          },
+            Error => {
+              console.log(Error)
+            })
+        }, Error => {
+          console.log(Error)
+        })
+      }
+    }
+    else{
+      
+      console.log('no image');
+      const confirm = this.alertCtrl.create({
+        title: "No Photo",
+        subTitle: "Please insert a photograph to continue.",
+        buttons: [
+          {
+            text: 'Ok',
+            handler: () => {
+            }
+          },
+        ]
+      });
+      confirm.present();
     }
     
+  }
 
-    dismiss(){
-      this.view.dismiss();
-    }
+
+  dismiss() {
+    this.navCtrl.setRoot(CategoryPage);
+  }
 }
-   

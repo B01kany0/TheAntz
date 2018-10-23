@@ -77,8 +77,8 @@ export class SignupPage {
     //}
     else {
       this.art.register(this.email, this.password, this.name).then(() => {
-        this.presentLoading();
         this.navCtrl.setRoot(CategoryPage);
+        this.presentLoading();
         this.presentLoading1();
       }, (error) => {
         console.log(error.message);
@@ -89,11 +89,11 @@ export class SignupPage {
     this.navCtrl.setRoot(LoginPage);
   }
   presentLoading() {
-    const loader = this.loadingCtrl.create({
-      content: "signing in....",
-      duration: 4000
+    const toast = this.toastCtrl.create({
+      message: this.email + 'You have succesfflly registered',
+      duration: 2000
     });
-    loader.present();
+    toast.present();
   }
   presentLoading1() {
     const loader = this.loadingCtrl.create({

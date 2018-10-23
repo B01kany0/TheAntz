@@ -7,6 +7,7 @@ import { ViewPage } from '../view/view';
 import firebase from 'firebase';
 import { AlertController } from 'ionic-angular';
 import { LoadingController } from 'ionic-angular';
+import { LoginPage } from '../login/login';
 
 /**
  * Generated class for the CategoryPage page.
@@ -31,13 +32,13 @@ export class CategoryPage {
   comments;
   constructor(public navCtrl: NavController, public navParams: NavParams, public art: StreetartzProvider, public alertCtrl: AlertController, public loadingCtrl: LoadingController) {
     this.retreivePics();
+  
   }
-
   ionViewDidLoad() {
 
   }
-  nextpage() {
-    this.navCtrl.setRoot(ProfilePage);
+  GoToProfilePage(){
+    this.navCtrl.push(ProfilePage);
   }
   typeOfArt() {
     this.arr2.length = 0;
@@ -58,14 +59,11 @@ export class CategoryPage {
             price: data[k].price,
           }
           this.arr2.push(obj);
-          console.log(this.arr2);
-          console.log(this.category);
         }
       }
       if(this.category == 'All'){
         this.retreivePics()
-        console.log('showing ' + this.category);
-        
+     
       }
     })
 
@@ -74,8 +72,13 @@ export class CategoryPage {
     this.arr2.length = 0;
     this.art.viewPicMain(this.name,this.username).then((data: any) => {
       this.arr2 = data;
-      console.log(this.arr2);
+
+
+
+      console.log(this.arr2)
+
     });
+  
   }
 
   pushArtistDetails(pic, name, key,url,comments,email,username,description,location,price,likes) {
@@ -93,7 +96,7 @@ export class CategoryPage {
       likes:likes
     }
     this.navCtrl.push(ViewPage, { obj: obj });
-    console.log(obj);
+
 
   }
 }

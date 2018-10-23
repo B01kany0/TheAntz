@@ -49,28 +49,14 @@ page-profile {
         // border-right: 1px solid white;
         padding-right: 16px;
     }
+    .head{
+        background: #011127;
+    }
     
     @media screen and (max-width: 414px){
         .icons{
             height: 20px;
-            color: white;
-        }
-        .editICO{
-            font-size: 12px;
-        }
-        h3{
-            color: white;
-        }
-        ion-navbar {
-            box-shadow: 0 2px 10px #011127;
-        }
-        ion-header{
-             box-shadow: 0 2px 10px #011127;
-        }
-        .outline{
-            text-align: center
-        }
-        .contents{
+            min-height: 250px;
             margin: 0 auto;
            
         }
@@ -116,9 +102,6 @@ page-profile {
         }
         h3{
             text-align: right
-        }
-        .head{
-            background: #011127
         }
         .list{
             color: white;

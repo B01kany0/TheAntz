@@ -36,23 +36,25 @@
         <ion-row>
 
 
+
     
 
 
         
         <ion-col> <!-- col-3 -->
+
             <button class="statements" ion-button clear (click)="likePicture()"> {{numlikes}} Likes</button>
           </ion-col>
           <ion-col>
             <button ion-button class="statements" clear>{{numComments}} Comments</button>
           </ion-col>
-       
 
         </ion-row>
       </ion-grid>
     </div>
   </div>
   <div>
+
     <ion-list *ngFor="let a of arr2">
 
 
@@ -80,6 +82,22 @@
 
 
 
+
+
+    <ion-list *ngFor="let a of CommentArr">
+      <ion-card>
+        <ion-item>
+          <ion-avatar item-start>
+            <img [src]="a.downloadurl">
+          </ion-avatar>
+          <h2 class="Caps-Lock">{{a.username}}</h2>
+          <p>{{a.date}}</p>
+        </ion-item>
+        <ion-card-content>
+          <p>{{a.comment}}</p>
+        </ion-card-content>
+      </ion-card>
+    </ion-list>
 
   </div>
 </ion-content>

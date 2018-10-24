@@ -11,9 +11,9 @@
     <div class="items">
       <ion-list no-lines>
         <div class="textFields">
-          <ion-input type="text" #input placeholder="Full Name" [(ngModel)]="name"></ion-input>
+          <ion-input type="text" placeholder="Full Name" [(ngModel)]="name"></ion-input>
           <ion-input type="email" placeholder="Email" [(ngModel)]="email"></ion-input>
-          <ion-input type="password" placeholder="Password (min 6 char)" [(ngModel)]="password" ></ion-input>
+          <ion-input type="password" placeholder="Password (min 6 char)" [(ngModel)]="password"></ion-input>
         </div>
       </ion-list>
       <button id="button" ion-button block (click)="signUp()">
@@ -22,6 +22,4 @@
     </div>
     <br>
   </div>
-
-  
 </ion-content>

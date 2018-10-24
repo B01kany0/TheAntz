@@ -19,7 +19,7 @@ import { CategoryPage } from '../category/category';
   templateUrl: 'view.html',
 })
 
-export class ViewPage implements OnInit {
+export class ViewPage implements OnInit{
   comment: any;
   data: any;
   name;
@@ -48,7 +48,8 @@ export class ViewPage implements OnInit {
   numlikes;
   viewComments;
   viewlike;
-  price
+  price;
+  name1;
   currentUserId;
   likeArr = [];
   CommentArr = [];
@@ -56,7 +57,7 @@ export class ViewPage implements OnInit {
   constructor(public navCtrl: NavController, public navParams: NavParams, public art: StreetartzProvider, private emailComposer: EmailComposer, public alertCtrl: AlertController) {
     this.obj = this.navParams.get("obj");
     console.log("this is my index");
-    console.log(this.email);
+    console.log(this.obj.email);
 
     this.username = this.obj.username;
     this.downloadurl = this.obj.pic;
@@ -69,37 +70,37 @@ export class ViewPage implements OnInit {
     this.location = this.obj.location;
     this.price = this.obj.price;
     this.numlikes = this.obj.likes;
+    this.name1 = this.obj.name1;
 
 
-
-
-
+  this.Retrivecomments();
   }
   ionViewDidEnter() {
-    this.Retrivecomments();
+  this.Retrivecomments();
 
   }
   ngOnInit() {
-    this.Retrivecomments();
+    // this.Retrivecomments();
     this.currentUserId = this.art.returnUID();
   }
+
   scroll(event){
-    console.log(event);
+    // console.log(event);
       let backBTN = document.getElementsByClassName('theWidth') as HTMLCollectionOf<HTMLElement>;
-      
+      let theContent = document.getElementsByClassName('content') as HTMLCollectionOf<HTMLElement>;
       if(event.scrollTop>60 && event.directionY == "down"){
         backBTN[0].style.transform = "translateY(-100%)";
-        backBTN[0].style.transition = 1 + "s"
+        backBTN[0].style.transition = 0.5 + "s";
+        theContent[0].style.marginTop = 15 + "px"
       }
-      else if(event.directionY == 'up' && event.deltaY < -10){
+      else if(event.directionY == 'up' && event.deltaY < -30){
+        backBTN[0].style.transform="translateY(0%)";
+      }
+      else if (event.scrollTop <= 30){
         backBTN[0].style.transform="translateY(0%)";
       }
     
-    
   }
-
-
-
   BuyArt() {
     this.emailComposer.isAvailable().then((available: boolean) => {
       if (available) {
@@ -110,10 +111,10 @@ export class ViewPage implements OnInit {
       to: this.obj.email,
       cc: 'theantz39@gmail.com',
       attachments: [
-        this.downloadurl
+        this.obj.url
       ],
-      subject: this.obj.username,
-      body: this.obj.pic,
+      subject: "REF:#" + '' + this.obj.name1,
+      body: "Greetings, <br> I would like to place an order for this image: <br> <br> <a href='" + this.obj.pic + "'>" +  this.obj.pic +"</a> <br><br><br>Kind Regards",
       isHtml: true
     };
     this.emailComposer.open(email);
@@ -126,7 +127,6 @@ export class ViewPage implements OnInit {
   Retrivecomments() {
     this.art.viewComments(this.obj.key, this.comment).then((data) => {
       if (data == null || data == undefined) {
-
       }
       else {
         this.CommentArr.length = 0;
@@ -144,7 +144,7 @@ export class ViewPage implements OnInit {
           this.CommentArr.push(obj);
           console.log(this.CommentArr);
         }
-        this.commentsLeng = this.CommentArr.length;
+        this.commentsLeng = this.CommentArr.length
       }
 
     })
@@ -153,7 +153,6 @@ export class ViewPage implements OnInit {
   likePicture() {
     this.art.viewLikes(this.obj.key).then(data => {
       console.log(data)
-      
       if (data == "not found") {
         this.art.likePic(this.obj.key);
         this.art.addNumOfLikes(this.obj.key, this.numlikes);

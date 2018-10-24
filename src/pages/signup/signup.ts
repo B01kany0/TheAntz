@@ -29,72 +29,56 @@ export class SignupPage {
     console.log('ionViewDidLoad SignupPage');
   }
   signUp() {
-    if (this.name == null || this.name == undefined,
-      this.email == null || this.email == undefined,
-      this.password == null || this.password == undefined
-    ) {
+    if (this.name == undefined,
+      this.email == undefined || this.email == null,
+      this.password == undefined || this.password == null) {
       const alert = this.alertCtrl.create({
-        title: "Oh no! ",
-        subTitle: "Please enter your email and password to login.",
+        title: "Oops! ",
+        subTitle: "Please enter your name,email and password to login.",
         buttons: ['OK']
       });
       alert.present();
-    } else if (this.password.length < 6) {
+    }
+    else if (this.email == undefined || this.email == null) {
       const alert = this.alertCtrl.create({
-        subTitle: 'Password must be 6 characters or more.',
+        title: "No Email",
+        subTitle: "It looks like you didn't enter your email address.",
         buttons: ['OK']
       });
       alert.present();
-    } else {
-      if (this.password.length < 6) {
-        const alert = this.alertCtrl.create({
-          subTitle: 'Password must be 6 characters or more.',
-          buttons: ['OK']
-        });
-        alert.present();
-      } else {
-        if (this.name == "") {
-          const alert = this.alertCtrl.create({
-            subTitle: 'Please complete your details.',
-            buttons: ['OK']
-          });
-          alert.present()
-          return  
-        }
-        if (this.email == "") {
-          const alert = this.alertCtrl.create({
-            subTitle: 'Please complete your details.',
-            buttons: ['OK']
-          });
-          alert.present()
-          return
-        }
-        this.art.register(this.email, this.password, this.name).then(() => {
-          this.presentLoading();
-          this.navCtrl.setRoot(CategoryPage);
-          this.presentLoading1();
-        }, (error) => {
-          console.log(error.message);
-        })
-
-      }
-
+    }
+    else if (this.password == undefined || this.password == null) {
+      const alert = this.alertCtrl.create({
+        title: "No Password",
+        subTitle: "You have not entered your password. Please enter your password",
+        buttons: ['OK']
+      });
+      alert.present();
+    }
+    else if (this.name == undefined || this.name == null) {
+      const alert = this.alertCtrl.create({
+        title: "No Name",
+        subTitle: "It looks like you didn't enter your Name.",
+        buttons: ['OK']
+      });
+      alert.present();
+    }
+    else {
+      this.art.register(this.email, this.password, this.name).then(() => {
+        this.presentLoading1();
+        this.navCtrl.setRoot(CategoryPage);
+      }, (error) => {
+        console.log(error.message);
+      })
     }
   }
   dismiss() {
     this.navCtrl.setRoot(LoginPage);
   }
-  presentLoading() {
-    const toast = this.toastCtrl.create({
-      message: this.email + 'You have succesfflly registered',
-      duration: 2000
-    });
-    toast.present();
-  }
   presentLoading1() {
     const loader = this.loadingCtrl.create({
       content: "loading....",
-      duration: 5000
+      duration: 4000
     });
     loader.present();
   }

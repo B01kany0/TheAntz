@@ -153,6 +153,7 @@ export class ViewPage implements OnInit {
   likePicture() {
     this.art.viewLikes(this.obj.key).then(data => {
       console.log(data)
+      
       if (data == "not found") {
         this.art.likePic(this.obj.key);
         this.art.addNumOfLikes(this.obj.key, this.numlikes);
